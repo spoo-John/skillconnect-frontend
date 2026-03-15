@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard — SkillConnect</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+      color: #ffffff;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; gap: 24px;
+      padding: 0 32px; height: 60px;
+      background: rgba(15,32,39,0.75);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .nav-logo { font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; margin-right: auto; }
+    .nav-logo span { color: #8ab4f8; }
+    nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    nav a:hover { color: #fff; }
+    .nav-avatar {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, #8ab4f8, #7b61ff);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 13px; cursor: pointer; color: #fff;
+    }
+
+    /* LAYOUT */
+    .dash-layout { display: flex; min-height: calc(100vh - 60px); }
+
+    /* SIDEBAR */
+    .dash-nav {
+      width: 240px; flex-shrink: 0;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(12px);
+      border-right: 1px solid rgba(255,255,255,0.1);
+      padding: 28px 12px;
+      position: sticky; top: 60px;
+      height: calc(100vh - 60px);
+      overflow-y: auto;
+    }
+    .dash-user {
+      padding: 0 8px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 20px;
+    }
+    .dash-user-av {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: linear-gradient(135deg, #8ab4f8, #7b61ff);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 18px; color: #fff; margin-bottom: 10px;
+    }
+    .dash-user-name { font-weight: 700; font-size: 15px; }
+    .dash-user-role { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+
+    .dash-nav-section { padding: 0 4px; margin-bottom: 8px; }
+    .dash-nav-label {
+      font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
+      color: rgba(255,255,255,0.4); font-weight: 700;
+      padding: 0 8px; margin: 16px 0 6px;
+    }
+    .dash-nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: 10px;
+      color: rgba(255,255,255,0.6); font-size: 14px; font-weight: 500;
+      cursor: pointer; text-decoration: none; transition: all 0.2s;
+      margin-bottom: 2px;
+    }
+    .dash-nav-item:hover { background: rgba(255,255,255,0.07); color: #fff; }
+    .dash-nav-item.active { background: rgba(138,180,248,0.12); color: #8ab4f8; font-weight: 600; }
+    .dash-nav-item .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+    .nav-signout { color: #ff8080 !important; }
+    .nav-signout:hover { background: rgba(255,80,80,0.1) !important; }
+
+    /* MAIN */
+    .dash-main { flex: 1; padding: 36px 40px 60px; min-width: 0; }
+
+    .dash-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; }
+    .dash-welcome h2 { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+    .dash-welcome p { color: rgba(255,255,255,0.5); font-size: 14px; }
+
+    .btn-primary {
+      padding: 11px 22px;
+      background: #8ab4f8; color: #0f2027;
+      border: none; border-radius: 10px;
+      font-weight: 700; font-size: 14px;
+      cursor: pointer; text-decoration: none;
+      transition: all 0.2s; white-space: nowrap;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(138,180,248,0.4); }
+
+    /* STATS */
+    .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 32px; }
+    .stat-card {
+      padding: 20px 22px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 16px; transition: transform 0.2s;
+    }
+    .stat-card:hover { transform: translateY(-2px); }
+    .stat-card-icon { font-size: 24px; margin-bottom: 12px; }
+    .stat-card-val { font-size: 28px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+    .stat-card-label { font-size: 12px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-card-change { font-size: 11px; color: #8ab4f8; margin-top: 6px; font-weight: 600; }
+
+    /* GLASS CARD */
+    .full-card {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 16px; padding: 24px; margin-bottom: 24px;
+    }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+
+    .section-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .section-hd h3 { font-size: 18px; font-weight: 700; }
+
+    .btn-ghost {
+      padding: 7px 16px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px; color: rgba(255,255,255,0.7);
+      font-size: 12px; font-weight: 600;
+      cursor: pointer; text-decoration: none; transition: all 0.2s;
+    }
+    .btn-ghost:hover { background: rgba(138,180,248,0.12); color: #8ab4f8; border-color: rgba(138,180,248,0.3); }
+
+    /* TABS */
+    .tab-bar { display: flex; gap: 4px; margin-bottom: 16px; background: rgba(0,0,0,0.2); padding: 4px; border-radius: 10px; width: fit-content; }
+    .tab-btn { padding: 7px 18px; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; background: transparent; color: rgba(255,255,255,0.5); font-family: "Segoe UI", sans-serif; transition: all 0.2s; }
+    .tab-btn.active { background: rgba(138,180,248,0.12); color: #8ab4f8; }
+
+    /* POSTS TABLE */
+    .posts-table { width: 100%; border-collapse: collapse; }
+    .posts-table th { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.4); padding: 10px 14px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); font-weight: 600; }
+    .posts-table td { padding: 13px 14px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
+    .posts-table tr:last-child td { border-bottom: none; }
+    .posts-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .post-title-cell { font-weight: 600; font-size: 13px; }
+    .post-title-sub { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+    .status-pill { padding: 3px 10px; border-radius: 50px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+    .status-open { background: rgba(0,230,130,0.12); color: #00e682; }
+    .status-closed { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4); }
+    .table-action { font-size: 12px; color: rgba(255,255,255,0.45); cursor: pointer; margin-right: 8px; transition: color 0.2s; background: none; border: none; font-family: "Segoe UI", sans-serif; padding: 0; }
+    .table-action:hover { color: #8ab4f8; }
+    .table-action.del:hover { color: #ff8080; }
+
+    /* MESSAGES */
+    .msg-preview-list { display: flex; flex-direction: column; gap: 10px; }
+    .msg-prev-item {
+      display: flex; gap: 12px; align-items: center;
+      padding: 12px 14px; border-radius: 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      cursor: pointer; text-decoration: none; transition: all 0.2s;
+    }
+    .msg-prev-item:hover { border-color: rgba(138,180,248,0.3); transform: translateX(3px); background: rgba(138,180,248,0.05); }
+    .msg-prev-av { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; flex-shrink: 0; font-size: 13px; }
+    .msg-prev-body { flex: 1; min-width: 0; }
+    .msg-prev-name { font-weight: 700; font-size: 14px; }
+    .msg-prev-text { font-size: 12px; color: rgba(255,255,255,0.45); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .msg-prev-time { font-size: 11px; color: rgba(255,255,255,0.35); }
+
+    /* PROS GRID */
+    .rec-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+    .rec-card { padding: 18px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; transition: all 0.25s; }
+    .rec-card:hover { transform: translateY(-3px); border-color: rgba(138,180,248,0.25); }
+    .rec-top { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+    .rec-av { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; font-size: 13px; }
+    .rec-name { font-weight: 700; font-size: 13px; }
+    .rec-role { font-size: 11px; color: rgba(255,255,255,0.45); }
+    .skill-tag { display: inline-block; padding: 3px 10px; border-radius: 50px; background: rgba(138,180,248,0.1); color: #8ab4f8; font-size: 11px; font-weight: 600; margin: 2px 2px 8px 0; }
+
+    .empty { text-align: center; padding: 32px; color: rgba(255,255,255,0.35); font-size: 14px; }
+    .loading { text-align: center; padding: 24px; color: rgba(255,255,255,0.4); font-size: 13px; }
+
+    @keyframes fadeInUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    .fade-up { animation: fadeInUp 0.5s ease both; }
+    .fade-up-2 { animation: fadeInUp 0.5s 0.1s ease both; }
+    .fade-up-3 { animation: fadeInUp 0.5s 0.2s ease both; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Skill<span>Connect</span></a>
+    <a href="browse.html">Browse Pros</a>
+    <a href="post-need.html">Post a Need</a>
+    <a href="messages.html">Messages</a>
+    <div class="nav-avatar" id="navAvatar">?</div>
+  </nav>
+
+  <div class="dash-layout">
+
+    <!-- SIDEBAR -->
+    <div class="dash-nav">
+      <div class="dash-user">
+        <div class="dash-user-av" id="sidebarAv">?</div>
+        <div class="dash-user-name" id="sidebarName">Loading...</div>
+        <div class="dash-user-role" id="sidebarRole">—</div>
+      </div>
+      <div class="dash-nav-section">
+        <div class="dash-nav-label">Main</div>
+        <a href="dashboard.html" class="dash-nav-item active"><span class="nav-icon">🏠</span> Dashboard</a>
+        <a href="messages.html" class="dash-nav-item"><span class="nav-icon">💬</span> Messages</a>
+        <a href="post-need.html" class="dash-nav-item"><span class="nav-icon">📋</span> My Posts</a>
+        <a href="browse.html" class="dash-nav-item"><span class="nav-icon">🔍</span> Browse Pros</a>
+      </div>
+      <div class="dash-nav-section">
+        <div class="dash-nav-label">Account</div>
+        <a href="profile.html" class="dash-nav-item"><span class="nav-icon">👤</span> Profile</a>
+        <a href="#" class="dash-nav-item"><span class="nav-icon">🔔</span> Notifications</a>
+        <a href="#" class="dash-nav-item"><span class="nav-icon">⚙️</span> Settings</a>
+      </div>
+      <div class="dash-nav-section" style="margin-top:8px;">
+        <a href="#" class="dash-nav-item nav-signout" id="signOutBtn"><span class="nav-icon">🚪</span> Sign Out</a>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="dash-main">
+
+      <div class="dash-top fade-up">
+        <div class="dash-welcome">
+          <h2 id="welcomeMsg">Good day 👋</h2>
+          <p id="welcomeSub">Here's what's happening with your account today.</p>
+        </div>
+        <a href="post-need.html" class="btn-primary">+ Post a New Need</a>
+      </div>
+
+      <div class="stats-row fade-up">
+        <div class="stat-card">
+          <div class="stat-card-icon">📋</div>
+          <div class="stat-card-val" id="statOpen">—</div>
+          <div class="stat-card-label">Active Posts</div>
+          <div class="stat-card-change" id="statOpenSub">Loading...</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon">💬</div>
+          <div class="stat-card-val" id="statMsgs">—</div>
+          <div class="stat-card-label">Messages</div>
+          <div class="stat-card-change">Your conversations</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon">🔍</div>
+          <div class="stat-card-val" id="statPros">—</div>
+          <div class="stat-card-label">Professionals</div>
+          <div class="stat-card-change">Available to hire</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon">✅</div>
+          <div class="stat-card-val" id="statClosed">—</div>
+          <div class="stat-card-label">Jobs Completed</div>
+          <div class="stat-card-change">Closed posts</div>
+        </div>
+      </div>
+
+      <div class="two-col fade-up-2">
+        <div class="full-card">
+          <div class="section-hd">
+            <h3>My Posts</h3>
+            <a href="post-need.html" class="btn-ghost">+ New</a>
+          </div>
+          <div class="tab-bar">
+            <button class="tab-btn active" onclick="filterPosts('open',this)">Open</button>
+            <button class="tab-btn" onclick="filterPosts('closed',this)">Closed</button>
+            <button class="tab-btn" onclick="filterPosts('all',this)">All</button>
+          </div>
+          <table class="posts-table">
+            <thead><tr><th>Post</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="postsBody"><tr><td colspan="3" class="loading">Loading posts...</td></tr></tbody>
+          </table>
+        </div>
+
+        <div class="full-card">
+          <div class="section-hd">
+            <h3>Recent Messages</h3>
+            <a href="messages.html" class="btn-ghost">View All</a>
+          </div>
+          <div class="msg-preview-list" id="msgList">
+            <div class="loading">Loading...</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="full-card fade-up-3">
+        <div class="section-hd">
+          <h3>Recommended Professionals</h3>
+          <a href="browse.html" class="btn-ghost">Browse All →</a>
+        </div>
+        <p style="font-size:13px;color:rgba(255,255,255,0.45);margin-bottom:16px;">Professionals available on SkillConnect</p>
+        <div class="rec-grid" id="prosGrid">
+          <div class="loading" style="grid-column:1/-1;">Loading professionals...</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const API = 'http://localhost:5000/api'
+    let allPosts = [], currentUser = null
+    const COLORS = ['linear-gradient(135deg,#8ab4f8,#7b61ff)','linear-gradient(135deg,#00e682,#8ab4f8)','linear-gradient(135deg,#7b61ff,#ff6b6b)','linear-gradient(135deg,#ff6b6b,#ff8e53)']
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const token = localStorage.getItem('token')
+      const user = JSON.parse(localStorage.getItem('user') || 'null')
+      if (!token || !user) { window.location.href = 'login.html'; return }
+      currentUser = user
+      setupUI(user)
+      loadPosts(token)
+      loadPros()
+      setupMessages()
+      document.getElementById('signOutBtn').addEventListener('click', e => {
+        e.preventDefault(); localStorage.clear(); window.location.href = 'login.html'
+      })
+    })
+
+    function setupUI(user) {
+      const initials = user.name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2)
+      const h = new Date().getHours()
+      const greeting = h<12?'Good morning':h<17?'Good afternoon':'Good evening'
+      const today = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})
+      document.getElementById('navAvatar').textContent = initials
+      document.getElementById('sidebarAv').textContent = initials
+      document.getElementById('sidebarName').textContent = user.name
+      document.getElementById('sidebarRole').textContent = user.role==='professional'?'Professional Account':'Client Account'
+      document.getElementById('welcomeMsg').textContent = `${greeting}, ${user.name.split(' ')[0]} 👋`
+      document.getElementById('welcomeSub').textContent = `Here's what's happening with your account today — ${today}`
+    }
+
+    async function loadPosts(token) {
+      try {
+        const res = await fetch(`${API}/posts`, {headers:{'Authorization':`Bearer ${token}`}})
+        const data = await res.json()
+        allPosts = Array.isArray(data) ? data.filter(p=>p.posted_by===currentUser.id) : []
+        const open = allPosts.filter(p=>p.status==='open')
+        const closed = allPosts.filter(p=>p.status==='closed')
+        document.getElementById('statOpen').textContent = open.length
+        document.getElementById('statOpenSub').textContent = `${open.length} open · ${closed.length} closed`
+        document.getElementById('statClosed').textContent = closed.length
+        renderPosts('open')
+      } catch { document.getElementById('postsBody').innerHTML=`<tr><td colspan="3" class="empty">Failed to load posts.</td></tr>` }
+    }
+
+    function renderPosts(filter) {
+      const tbody = document.getElementById('postsBody')
+      const list = filter==='all' ? allPosts : allPosts.filter(p=>p.status===filter)
+      if (!list.length) { tbody.innerHTML=`<tr><td colspan="3" class="empty">No ${filter==='all'?'':filter} posts yet.</td></tr>`; return }
+      tbody.innerHTML = list.map(p=>`
+        <tr>
+          <td><div class="post-title-cell">${p.title}</div><div class="post-title-sub">${p.skill_needed||'—'} · ${p.budget?'KSh '+Number(p.budget).toLocaleString():'Budget TBD'}</div></td>
+          <td><span class="status-pill status-${p.status}">${p.status}</span></td>
+          <td><button class="table-action" onclick="editPost(${p.id})">Edit</button><button class="table-action del" onclick="deletePost(${p.id})">Delete</button></td>
+        </tr>`).join('')
+    }
+
+    function filterPosts(filter, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'))
+      btn.classList.add('active'); renderPosts(filter)
+    }
+
+    async function deletePost(id) {
+      if (!confirm('Delete this post?')) return
+      const token = localStorage.getItem('token')
+      try {
+        const res = await fetch(`${API}/posts/${id}`,{method:'DELETE',headers:{'Authorization':`Bearer ${token}`}})
+        if (res.ok) {
+          allPosts = allPosts.filter(p=>p.id!==id)
+          const active = document.querySelector('.tab-btn.active')
+          filterPosts(active?active.textContent.toLowerCase().trim():'open', active||document.querySelector('.tab-btn'))
+          document.getElementById('statOpen').textContent = allPosts.filter(p=>p.status==='open').length
+          document.getElementById('statClosed').textContent = allPosts.filter(p=>p.status==='closed').length
+        }
+      } catch { alert('Failed to delete post.') }
+    }
+
+    function editPost(id) { window.location.href=`post-need.html?id=${id}` }
+
+    async function loadPros() {
+      try {
+        const res = await fetch(`${API}/users`)
+        const pros = await res.json()
+        document.getElementById('statPros').textContent = Array.isArray(pros)?pros.length:0
+        if (!pros.length) { document.getElementById('prosGrid').innerHTML=`<div class="empty" style="grid-column:1/-1;">No professionals yet.</div>`; return }
+        document.getElementById('prosGrid').innerHTML = pros.slice(0,3).map((p,i)=>{
+          const initials = p.name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2)
+          let skills=[]; try{ skills=Array.isArray(p.skills)?p.skills:JSON.parse(p.skills||'[]') }catch{}
+          return `<div class="rec-card">
+            <div class="rec-top">
+              <div class="rec-av" style="background:${COLORS[i%COLORS.length]}">${initials}</div>
+              <div><div class="rec-name">${p.name}</div><div class="rec-role">${skills[0]||'Professional'}</div></div>
+            </div>
+            <div>${skills.slice(0,3).map(s=>`<span class="skill-tag">${s}</span>`).join('')}</div>
+            <a href="profile.html?id=${p.id}" class="btn-ghost" style="display:block;text-align:center;padding:7px;font-size:12px;margin-top:8px;">View Profile</a>
+          </div>`
+        }).join('')
+      } catch { document.getElementById('prosGrid').innerHTML=`<div class="empty" style="grid-column:1/-1;">Failed to load professionals.</div>` }
+    }
+
+    function setupMessages() {
+      document.getElementById('statMsgs').textContent = '—'
+      document.getElementById('msgList').innerHTML = `
+        <a href="messages.html" class="msg-prev-item">
+          <div class="msg-prev-av" style="background:linear-gradient(135deg,#8ab4f8,#7b61ff)">💬</div>
+          <div class="msg-prev-body">
+            <div class="msg-prev-name">Your Messages</div>
+            <div class="msg-prev-text">Click to view all your conversations</div>
+          </div>
+          <div class="msg-prev-time">→</div>
+        </a>`
+    }
+  </script>
+</body>
+</html>

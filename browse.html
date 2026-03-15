@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Browse Professionals — SkillConnect</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+      color: #ffffff;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; gap: 24px;
+      padding: 0 32px; height: 60px;
+      background: rgba(15,32,39,0.75);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .nav-logo { font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; margin-right: auto; }
+    .nav-logo span { color: #8ab4f8; }
+    nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    nav a:hover { color: #fff; }
+    nav a.active { color: #8ab4f8; }
+    .nav-avatar {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, #8ab4f8, #7b61ff);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 13px; cursor: pointer; color: #fff;
+    }
+    .nav-btn {
+      padding: 8px 18px; border-radius: 8px; font-weight: 600; font-size: 13px;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .nav-btn-outline { border: 1px solid rgba(255,255,255,0.25); color: rgba(255,255,255,0.8); }
+    .nav-btn-outline:hover { border-color: #8ab4f8; color: #8ab4f8; }
+    .nav-btn-filled { background: #8ab4f8; color: #0f2027; font-weight: 700; }
+    .nav-btn-filled:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(138,180,248,0.4); }
+
+    /* HERO */
+    .browse-hero {
+      background: linear-gradient(180deg, rgba(138,180,248,0.06) 0%, transparent 100%);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 48px 40px 40px;
+      text-align: center;
+    }
+    .browse-hero h1 { font-size: clamp(28px,4vw,48px); font-weight: 800; margin-bottom: 12px; }
+    .browse-hero h1 em { font-style: normal; color: #8ab4f8; }
+    .browse-hero p { color: rgba(255,255,255,0.5); font-size: 15px; margin-bottom: 32px; }
+
+    /* SEARCH */
+    .search-bar {
+      display: flex; gap: 10px; max-width: 680px; margin: 0 auto 24px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50px;
+      padding: 8px 8px 8px 20px;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.25s;
+    }
+    .search-bar:focus-within { border-color: #8ab4f8; box-shadow: 0 0 0 3px rgba(138,180,248,0.1); }
+    .search-bar input {
+      flex: 1; border: none; background: transparent;
+      font-size: 15px; color: #fff; outline: none;
+    }
+    .search-bar input::placeholder { color: rgba(255,255,255,0.35); }
+    .search-bar button {
+      padding: 10px 22px; background: #8ab4f8;
+      color: #0f2027; border: none; border-radius: 50px;
+      font-weight: 700; font-size: 14px;
+      cursor: pointer; transition: all 0.2s; margin: 0;
+    }
+    .search-bar button:hover { transform: scale(1.03); box-shadow: 0 4px 14px rgba(138,180,248,0.4); }
+
+    /* FILTER CHIPS */
+    .filter-chips { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+    .chip {
+      padding: 7px 18px; border-radius: 50px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: transparent; color: rgba(255,255,255,0.55);
+      font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+      font-family: "Segoe UI", sans-serif;
+    }
+    .chip:hover { border-color: #8ab4f8; color: #8ab4f8; }
+    .chip.active { background: rgba(138,180,248,0.12); border-color: #8ab4f8; color: #8ab4f8; }
+
+    /* BODY LAYOUT */
+    .browse-body { display: flex; max-width: 1300px; margin: 0 auto; padding: 0 40px 80px; }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 220px; flex-shrink: 0;
+      padding: 32px 28px 32px 0;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    .sidebar-section { margin-bottom: 28px; }
+    .sidebar-title {
+      font-weight: 700; font-size: 11px; text-transform: uppercase;
+      letter-spacing: 1.2px; color: rgba(255,255,255,0.4); margin-bottom: 12px;
+    }
+    .sidebar-option {
+      display: flex; align-items: center; gap: 10px;
+      padding: 7px 0; cursor: pointer; color: rgba(255,255,255,0.55);
+      font-size: 14px; transition: color 0.2s;
+    }
+    .sidebar-option:hover { color: #fff; }
+    .sidebar-option input[type="checkbox"],
+    .sidebar-option input[type="radio"] { accent-color: #8ab4f8; width: 15px; height: 15px; cursor: pointer; }
+
+    .availability-toggle { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; }
+    .toggle-sw {
+      width: 42px; height: 24px; border-radius: 12px;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+      position: relative; cursor: pointer; transition: background 0.3s;
+    }
+    .toggle-sw.on { background: #8ab4f8; }
+    .toggle-sw::after {
+      content: ''; position: absolute; width: 18px; height: 18px;
+      border-radius: 50%; background: white; top: 2px; left: 2px; transition: transform 0.3s;
+    }
+    .toggle-sw.on::after { transform: translateX(18px); }
+
+    /* RESULTS */
+    .results-area { flex: 1; padding: 32px 0 0 32px; }
+    .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .results-count { font-size: 16px; font-weight: 700; }
+    .results-count span { color: rgba(255,255,255,0.45); font-weight: 400; font-size: 14px; }
+    .sort-select {
+      padding: 9px 16px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px; color: #fff;
+      font-size: 14px; outline: none; cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
+
+    /* PRO CARDS */
+    .pros-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px,1fr)); gap: 16px; }
+    .pro-card {
+      padding: 22px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 16px;
+      display: flex; flex-direction: column;
+      transition: all 0.3s;
+    }
+    .pro-card:hover { transform: translateY(-5px); border-color: rgba(138,180,248,0.35); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+
+    .pro-card-top { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 14px; }
+    .pro-av-wrap { position: relative; display: inline-flex; }
+    .pro-avatar {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 18px; color: #fff;
+    }
+    .pro-avail {
+      width: 10px; height: 10px; border-radius: 50%; background: #00e682;
+      border: 2px solid #0f2027; position: absolute; bottom: 2px; right: 2px;
+    }
+    .pro-info { flex: 1; }
+    .pro-name { font-weight: 700; font-size: 16px; margin-bottom: 3px; }
+    .pro-role-title { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 5px; }
+    .pro-rating { display: flex; align-items: center; gap: 5px; font-size: 13px; color: #ffc940; }
+    .pro-rating .count { color: rgba(255,255,255,0.4); font-size: 12px; }
+
+    .pro-bio { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; margin-bottom: 14px; flex: 1; }
+    .pro-skills { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 16px; }
+    .skill-tag { display: inline-block; padding: 3px 10px; border-radius: 50px; background: rgba(138,180,248,0.1); color: #8ab4f8; font-size: 11px; font-weight: 600; }
+
+    .pro-card-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08); margin-top: auto;
+    }
+    .pro-rate { font-weight: 700; font-size: 14px; }
+    .pro-rate span { font-weight: 400; font-size: 12px; color: rgba(255,255,255,0.45); }
+
+    .btn-ghost {
+      padding: 7px 16px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px; color: rgba(255,255,255,0.7);
+      font-size: 12px; font-weight: 600;
+      cursor: pointer; text-decoration: none; transition: all 0.2s;
+    }
+    .btn-ghost:hover { background: rgba(138,180,248,0.12); color: #8ab4f8; border-color: rgba(138,180,248,0.3); }
+
+    /* EMPTY / LOADING */
+    .empty { text-align: center; padding: 60px 20px; color: rgba(255,255,255,0.35); font-size: 15px; grid-column: 1/-1; }
+    .loading { text-align: center; padding: 60px 20px; color: rgba(255,255,255,0.4); font-size: 14px; grid-column: 1/-1; }
+
+    /* PAGINATION */
+    .pagination { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 40px; }
+    .page-btn {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.6); font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; text-decoration: none;
+    }
+    .page-btn:hover, .page-btn.active { background: rgba(138,180,248,0.12); border-color: #8ab4f8; color: #8ab4f8; }
+
+    @keyframes fadeInUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    .fade-up { animation: fadeInUp 0.5s ease both; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Skill<span>Connect</span></a>
+    <a href="browse.html" class="active">Browse Pros</a>
+    <a href="post-need.html">Post a Need</a>
+    <a href="messages.html">Messages</a>
+    <div class="nav-avatar" id="navAvatar" style="display:none;">?</div>
+    <a href="login.html" class="nav-btn nav-btn-outline" id="navLogin">Log In</a>
+    <a href="register.html" class="nav-btn nav-btn-filled" id="navRegister">Get Started</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="browse-hero fade-up">
+    <h1>Find your <em>perfect</em> match</h1>
+    <p id="heroSub">Browse verified tech professionals across multiple skill categories</p>
+    <div class="search-bar">
+      <input type="text" placeholder="Search by name, skill, or keyword..." id="searchInput"/>
+      <button onclick="applySearch()">Search</button>
+    </div>
+    <div class="filter-chips">
+      <button class="chip active" onclick="filterBySkill(this,'all')">All</button>
+      <button class="chip" onclick="filterBySkill(this,'Frontend Dev')">Frontend Dev</button>
+      <button class="chip" onclick="filterBySkill(this,'Backend Dev')">Backend Dev</button>
+      <button class="chip" onclick="filterBySkill(this,'Cybersecurity')">Cybersecurity</button>
+      <button class="chip" onclick="filterBySkill(this,'Mobile Dev')">Mobile Dev</button>
+      <button class="chip" onclick="filterBySkill(this,'UI / UX Design')">UI / UX</button>
+      <button class="chip" onclick="filterBySkill(this,'Data Analysis')">Data Analysis</button>
+      <button class="chip" onclick="filterBySkill(this,'DevOps')">DevOps</button>
+    </div>
+  </div>
+
+  <div class="browse-body">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-title">Availability</div>
+        <div class="availability-toggle">
+          <span style="font-size:14px;color:rgba(255,255,255,0.55);">Available Now</span>
+          <div class="toggle-sw on" onclick="this.classList.toggle('on')"></div>
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">Skills</div>
+        <label class="sidebar-option"><input type="checkbox" onchange="applyFilters()"/> Frontend Dev</label>
+        <label class="sidebar-option"><input type="checkbox" onchange="applyFilters()"/> Backend Dev</label>
+        <label class="sidebar-option"><input type="checkbox" onchange="applyFilters()"/> Cybersecurity</label>
+        <label class="sidebar-option"><input type="checkbox" onchange="applyFilters()"/> Mobile Dev</label>
+        <label class="sidebar-option"><input type="checkbox" onchange="applyFilters()"/> UI / UX Design</label>
+        <label class="sidebar-option"><input type="checkbox" onchange="applyFilters()"/> Data Analysis</label>
+        <label class="sidebar-option"><input type="checkbox" onchange="applyFilters()"/> DevOps</label>
+        <label class="sidebar-option"><input type="checkbox" onchange="applyFilters()"/> IT Support</label>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">Sort By</div>
+        <label class="sidebar-option"><input type="radio" name="sort" value="newest" checked onchange="applyFilters()"/> Newest</label>
+        <label class="sidebar-option"><input type="radio" name="sort" value="name" onchange="applyFilters()"/> Name A–Z</label>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="results-area">
+      <div class="results-header">
+        <div class="results-count" id="resultsCount">Loading... <span>professionals</span></div>
+        <select class="sort-select" onchange="applyFilters()">
+          <option value="newest">Sort: Newest</option>
+          <option value="name">Name A–Z</option>
+        </select>
+      </div>
+
+      <div class="pros-grid" id="prosGrid">
+        <div class="loading">Loading professionals...</div>
+      </div>
+
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </div>
+
+  <script>
+    const API = 'http://localhost:5000/api'
+    let allPros = []
+    let activeSkill = 'all'
+    const COLORS = [
+      'linear-gradient(135deg,#8ab4f8,#7b61ff)',
+      'linear-gradient(135deg,#00e682,#8ab4f8)',
+      'linear-gradient(135deg,#7b61ff,#ff6b6b)',
+      'linear-gradient(135deg,#ff6b6b,#ff8e53)',
+      'linear-gradient(135deg,#00d4ff,#7b61ff)',
+      'linear-gradient(135deg,#ffc940,#ff6b6b)',
+    ]
+    const PER_PAGE = 6
+    let currentPage = 1
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Setup nav based on login state
+      const user = JSON.parse(localStorage.getItem('user') || 'null')
+      if (user) {
+        const initials = user.name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2)
+        document.getElementById('navAvatar').textContent = initials
+        document.getElementById('navAvatar').style.display = 'flex'
+        document.getElementById('navLogin').style.display = 'none'
+        document.getElementById('navRegister').style.display = 'none'
+      }
+
+      loadPros()
+
+      document.getElementById('searchInput').addEventListener('keydown', e => {
+        if (e.key === 'Enter') applySearch()
+      })
+    })
+
+    async function loadPros() {
+      try {
+        const res = await fetch(`${API}/users`)
+        const data = await res.json()
+        allPros = Array.isArray(data) ? data : []
+        document.getElementById('heroSub').textContent =
+          `Browse ${allPros.length} verified tech professional${allPros.length !== 1 ? 's' : ''} on SkillConnect`
+        applyFilters()
+      } catch {
+        document.getElementById('prosGrid').innerHTML = `<div class="empty">Failed to load professionals. Make sure the backend is running.</div>`
+      }
+    }
+
+    function filterBySkill(btn, skill) {
+      document.querySelectorAll('.filter-chips .chip').forEach(c => c.classList.remove('active'))
+      btn.classList.add('active')
+      activeSkill = skill
+      currentPage = 1
+      applyFilters()
+    }
+
+    function applySearch() {
+      currentPage = 1
+      applyFilters()
+    }
+
+    function applyFilters() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim()
+      const checkedSkills = [...document.querySelectorAll('.sidebar-option input[type="checkbox"]:checked')]
+        .map(el => el.parentElement.textContent.trim())
+      const sortVal = document.querySelector('.sort-select').value
+
+      let filtered = allPros.filter(p => {
+        let skills = []
+        try { skills = Array.isArray(p.skills) ? p.skills : JSON.parse(p.skills || '[]') } catch {}
+
+        // Chip filter
+        if (activeSkill !== 'all') {
+          const hasSkill = skills.some(s => s.toLowerCase().includes(activeSkill.toLowerCase()))
+          if (!hasSkill) return false
+        }
+
+        // Sidebar checkbox filter
+        if (checkedSkills.length > 0) {
+          const hasAny = checkedSkills.some(cs => skills.some(s => s.toLowerCase().includes(cs.toLowerCase())))
+          if (!hasAny) return false
+        }
+
+        // Search query
+        if (query) {
+          const searchable = `${p.name} ${p.bio || ''} ${skills.join(' ')}`.toLowerCase()
+          if (!searchable.includes(query)) return false
+        }
+
+        return true
+      })
+
+      // Sort
+      if (sortVal === 'name') filtered.sort((a,b) => a.name.localeCompare(b.name))
+
+      renderPros(filtered)
+    }
+
+    function renderPros(pros) {
+      const grid = document.getElementById('prosGrid')
+      const total = pros.length
+      const start = (currentPage - 1) * PER_PAGE
+      const paged = pros.slice(start, start + PER_PAGE)
+
+      document.getElementById('resultsCount').innerHTML =
+        `${total} <span>professional${total !== 1 ? 's' : ''} found</span>`
+
+      if (!paged.length) {
+        grid.innerHTML = `<div class="empty">No professionals found. Try a different search or filter.</div>`
+        document.getElementById('pagination').innerHTML = ''
+        return
+      }
+
+      grid.innerHTML = paged.map((p, i) => {
+        const initials = p.name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2)
+        let skills = []
+        try { skills = Array.isArray(p.skills) ? p.skills : JSON.parse(p.skills || '[]') } catch {}
+        const color = COLORS[(start + i) % COLORS.length]
+
+        return `
+          <div class="pro-card">
+            <div class="pro-card-top">
+              <div class="pro-av-wrap">
+                <div class="pro-avatar" style="background:${color}">${initials}</div>
+                <span class="pro-avail"></span>
+              </div>
+              <div class="pro-info">
+                <div class="pro-name">${p.name}</div>
+                <div class="pro-role-title">${skills[0] || 'Professional'}</div>
+                <div class="pro-rating">★★★★★ <span class="count">(New)</span></div>
+              </div>
+            </div>
+            <p class="pro-bio">${p.bio || 'Experienced professional available for hire on SkillConnect.'}</p>
+            <div class="pro-skills">${skills.slice(0,4).map(s=>`<span class="skill-tag">${s}</span>`).join('')}</div>
+            <div class="pro-card-footer">
+              <div class="pro-rate">Available <span>for hire</span></div>
+              <a href="profile.html?id=${p.id}" class="btn-ghost">View Profile</a>
+            </div>
+          </div>
+        `
+      }).join('')
+
+      renderPagination(pros)
+    }
+
+    function renderPagination(pros) {
+      const totalPages = Math.ceil(pros.length / PER_PAGE)
+      const pag = document.getElementById('pagination')
+      if (totalPages <= 1) { pag.innerHTML = ''; return }
+
+      let html = `<a class="page-btn" onclick="changePage(${currentPage-1}, event)">←</a>`
+      for (let i = 1; i <= totalPages; i++) {
+        html += `<a class="page-btn ${i===currentPage?'active':''}" onclick="changePage(${i}, event)">${i}</a>`
+      }
+      html += `<a class="page-btn" onclick="changePage(${currentPage+1}, event)">→</a>`
+      pag.innerHTML = html
+    }
+
+    function changePage(page, e) {
+      e.preventDefault()
+      const totalPages = Math.ceil(allPros.length / PER_PAGE)
+      if (page < 1 || page > totalPages) return
+      currentPage = page
+      applyFilters()
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  </script>
+</body>
+</html>

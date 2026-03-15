@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Post a Need — SkillConnect</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+      color: #ffffff;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; gap: 24px;
+      padding: 0 32px; height: 60px;
+      background: rgba(15,32,39,0.75);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .nav-logo { font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; margin-right: auto; }
+    .nav-logo span { color: #8ab4f8; }
+    nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    nav a:hover { color: #fff; }
+    nav a.active { color: #8ab4f8; }
+    .nav-avatar {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, #8ab4f8, #7b61ff);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 13px; cursor: pointer; color: #fff;
+    }
+    .nav-btn { padding: 8px 18px; border-radius: 8px; font-weight: 600; font-size: 13px; text-decoration: none; transition: all 0.2s; }
+    .nav-btn-outline { border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); }
+    .nav-btn-outline:hover { border-color: #8ab4f8; color: #8ab4f8; }
+    .nav-btn-filled { background: #8ab4f8; color: #0f2027; font-weight: 700; }
+    .nav-btn-filled:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(138,180,248,0.4); }
+
+    /* PAGE */
+    .post-page {
+      max-width: 1100px; margin: 0 auto;
+      padding: 60px 40px 80px;
+      position: relative; z-index: 1;
+    }
+
+    .post-header { text-align: center; margin-bottom: 52px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px; border-radius: 50px; font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px;
+      background: rgba(138,180,248,0.12); color: #8ab4f8;
+      border: 1px solid rgba(138,180,248,0.25);
+      margin-bottom: 16px;
+    }
+    .post-header h1 { font-size: clamp(30px,4vw,48px); font-weight: 800; margin-bottom: 12px; line-height: 1.2; }
+    .post-header h1 em { font-style: normal; color: #8ab4f8; }
+    .post-header p { color: rgba(255,255,255,0.5); font-size: 15px; max-width: 500px; margin: 0 auto; }
+
+    .post-body { display: grid; grid-template-columns: 1fr 320px; gap: 32px; align-items: start; }
+
+    /* GLASS FORM */
+    .post-form {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px;
+      padding: 40px;
+    }
+
+    /* STEP INDICATOR */
+    .step-indicator { display: flex; align-items: center; margin-bottom: 36px; }
+    .step { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; }
+    .step-num {
+      width: 30px; height: 30px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700;
+    }
+    .step.done .step-num { background: #8ab4f8; color: #0f2027; }
+    .step.active .step-num { background: rgba(138,180,248,0.15); color: #8ab4f8; border: 2px solid #8ab4f8; }
+    .step.inactive .step-num { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.15); }
+    .step.done span, .step.active span { color: #fff; }
+    .step.inactive span { color: rgba(255,255,255,0.4); }
+    .step-line { flex: 1; height: 1px; background: rgba(255,255,255,0.1); margin: 0 10px; }
+
+    /* FORM ELEMENTS */
+    .form-group { margin-bottom: 22px; }
+    label {
+      display: block; font-size: 13px; font-weight: 600;
+      color: #8ab4f8; margin-bottom: 8px;
+      text-transform: uppercase; letter-spacing: 0.8px;
+    }
+    input, select, textarea {
+      width: 100%; padding: 13px 16px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px; color: #fff;
+      font-size: 14px; font-family: "Segoe UI", sans-serif;
+      outline: none; transition: border-color 0.25s, box-shadow 0.25s;
+      resize: vertical;
+    }
+    input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.3); }
+    input:focus, select:focus, textarea:focus {
+      border-color: #8ab4f8;
+      box-shadow: 0 0 0 3px rgba(138,180,248,0.12);
+    }
+    select option { background: #1a2a35; color: #fff; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .char-count { text-align: right; font-size: 12px; color: rgba(255,255,255,0.35); margin-top: 4px; }
+
+    .budget-row { display: grid; grid-template-columns: 130px 1fr; gap: 12px; }
+
+    /* CONTACT OPTIONS */
+    .contact-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .contact-opt {
+      padding: 13px 16px;
+      border: 2px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      display: flex; align-items: center; gap: 10px;
+      cursor: pointer; transition: all 0.2s;
+      font-size: 14px; font-weight: 600;
+      color: rgba(255,255,255,0.6);
+      background: rgba(255,255,255,0.04);
+    }
+    .contact-opt:hover { border-color: rgba(138,180,248,0.4); color: #fff; }
+    .contact-opt.active { border-color: #8ab4f8; background: rgba(138,180,248,0.1); color: #8ab4f8; }
+    .contact-opt input { display: none; }
+
+    /* SUBMIT */
+    .submit-area { margin-top: 28px; display: flex; gap: 14px; }
+    .btn-draft {
+      padding: 14px 24px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50px; color: rgba(255,255,255,0.7);
+      font-size: 14px; font-weight: 600;
+      cursor: pointer; text-decoration: none; transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-draft:hover { background: rgba(255,255,255,0.12); color: #fff; }
+    .submit-btn-main {
+      flex: 1; padding: 15px;
+      background: #8ab4f8; color: #0f2027;
+      font-weight: 800; font-size: 15px;
+      border: none; border-radius: 50px; cursor: pointer; transition: all 0.25s;
+      font-family: "Segoe UI", sans-serif;
+    }
+    .submit-btn-main:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(138,180,248,0.4); }
+    .submit-btn-main:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    /* MSG */
+    .msg { margin-top: 16px; padding: 10px 16px; border-radius: 10px; font-size: 14px; display: none; }
+    .msg.error { background: rgba(255,80,80,0.12); border: 1px solid rgba(255,80,80,0.3); color: #ff8080; display: block; }
+    .msg.success { background: rgba(0,230,130,0.1); border: 1px solid rgba(0,230,130,0.25); color: #00e682; display: block; }
+
+    /* SIDEBAR */
+    .tips-sidebar { position: sticky; top: 80px; }
+
+    .glass-card {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 16px; padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    .preview-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; color: rgba(255,255,255,0.4); margin-bottom: 10px; font-weight: 700; }
+    .preview-title { font-weight: 700; font-size: 16px; margin-bottom: 6px; color: rgba(255,255,255,0.35); }
+    .preview-title.has-value { color: #fff; }
+    .preview-desc { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+    .preview-badges { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+    .preview-badge { padding: 3px 10px; border-radius: 50px; background: rgba(138,180,248,0.1); color: #8ab4f8; font-size: 11px; font-weight: 600; }
+
+    .tips-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 14px; }
+    .tip-item { display: flex; gap: 10px; margin-bottom: 12px; font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.5; }
+    .tip-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+
+    .recent-card { border-color: rgba(138,180,248,0.2); }
+    .recent-card h4 { color: #8ab4f8; font-size: 14px; font-weight: 700; margin-bottom: 14px; }
+    .recent-post-item { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .recent-post-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .recent-post-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+    .recent-post-meta { font-size: 12px; color: rgba(255,255,255,0.4); }
+
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    .fade-up { animation: fadeInUp 0.5s ease both; }
+    .fade-up-2 { animation: fadeInUp 0.5s 0.1s ease both; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Skill<span>Connect</span></a>
+    <a href="browse.html">Browse Pros</a>
+    <a href="post-need.html" class="active">Post a Need</a>
+    <a href="messages.html" id="navMessages" style="display:none">Messages</a>
+    <div class="nav-avatar" id="navAvatar" style="display:none">?</div>
+    <a href="login.html" class="nav-btn nav-btn-outline" id="navLogin">Log In</a>
+    <a href="register.html" class="nav-btn nav-btn-filled" id="navRegister">Get Started</a>
+  </nav>
+
+  <div class="post-page">
+    <div class="post-header fade-up">
+      <span class="badge">📋 Post a Need</span>
+      <h1>Tell us what you<br>need <em>done</em></h1>
+      <p>No tech knowledge needed — just describe what you want to achieve and let professionals come to you.</p>
+    </div>
+
+    <div class="post-body">
+
+      <!-- MAIN FORM -->
+      <div class="post-form fade-up">
+        <div class="step-indicator">
+          <div class="step done"><div class="step-num">✓</div><span>Account</span></div>
+          <div class="step-line"></div>
+          <div class="step active"><div class="step-num">2</div><span>Your Need</span></div>
+          <div class="step-line"></div>
+          <div class="step inactive"><div class="step-num">3</div><span>Review & Post</span></div>
+        </div>
+
+        <div class="form-group">
+          <label>Post Title <span style="color:rgba(255,255,255,0.35);text-transform:none;letter-spacing:0;font-weight:400">(be specific)</span></label>
+          <input type="text" id="titleInput" placeholder='e.g. "Need a landing page for my bakery business"' oninput="updatePreview()"/>
+        </div>
+
+        <div class="form-group">
+          <label>Describe What You Need</label>
+          <textarea rows="5" id="descInput" placeholder="Explain what you want built or done. The more detail you give, the better responses you'll get..." oninput="updatePreview(); updateCount(this,'descCount',1000)"></textarea>
+          <div class="char-count"><span id="descCount">0</span> / 1000</div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Skill Category Needed</label>
+            <select id="skillSelect" onchange="updatePreview()">
+              <option value="">Select a skill...</option>
+              <option value="Frontend Dev">Frontend Development</option>
+              <option value="Backend Dev">Backend Development</option>
+              <option value="UI / UX Design">UI / UX Design</option>
+              <option value="Cybersecurity">Cybersecurity</option>
+              <option value="Mobile Dev">Mobile Development</option>
+              <option value="Data Analysis">Data Analysis</option>
+              <option value="DevOps">DevOps / Cloud</option>
+              <option value="IT Support">IT Support</option>
+              <option value="Database Admin">Database Administration</option>
+              <option value="QA Testing">QA Testing</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Deadline</label>
+            <input type="date" id="deadlineInput"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Budget</label>
+          <div class="budget-row">
+            <select id="currencySelect">
+              <option value="KSh">KSh</option>
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+              <option value="GBP">GBP</option>
+            </select>
+            <input type="number" id="budgetInput" placeholder="e.g. 15000" min="0"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Preferred Contact Method</label>
+          <div class="contact-options">
+            <label class="contact-opt active" onclick="selectContact(this)">
+              <input type="radio" name="contact"/> 💬 Platform Messages
+            </label>
+            <label class="contact-opt" onclick="selectContact(this)">
+              <input type="radio" name="contact"/> 📧 Email Only
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Additional Notes <span style="color:rgba(255,255,255,0.35);text-transform:none;letter-spacing:0;font-weight:400">(optional)</span></label>
+          <textarea rows="3" id="notesInput" placeholder="Any specific requirements, style preferences, examples of work you like..."></textarea>
+        </div>
+
+        <div id="msg" class="msg"></div>
+
+        <div class="submit-area">
+          <a href="dashboard.html" class="btn-draft">← Back</a>
+          <button class="submit-btn-main" id="submitBtn" onclick="handleSubmit()">Post My Need →</button>
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <div class="tips-sidebar fade-up-2">
+
+        <!-- Live preview -->
+        <div class="glass-card">
+          <div class="preview-label">📄 Live Preview</div>
+          <div class="preview-title" id="previewTitle">Your title will appear here...</div>
+          <div class="preview-desc" id="previewDesc">Description preview...</div>
+          <div class="preview-badges" id="previewBadges"></div>
+        </div>
+
+        <!-- Tips -->
+        <div class="glass-card tips-card">
+          <h4>💡 Tips for a great post</h4>
+          <div class="tip-item"><span class="tip-icon">🎯</span><span><strong>Be specific.</strong> Instead of "need a website" say "need a 5-page website for my bakery with an online menu"</span></div>
+          <div class="tip-item"><span class="tip-icon">💰</span><span><strong>Set a realistic budget.</strong> Professionals are more likely to respond if budget expectations are clear</span></div>
+          <div class="tip-item"><span class="tip-icon">📅</span><span><strong>Give a real deadline.</strong> This helps pros know if they have the availability</span></div>
+          <div class="tip-item"><span class="tip-icon">🔗</span><span><strong>Share examples.</strong> Link to websites or apps you like in the notes field</span></div>
+        </div>
+
+        <!-- Recent posts -->
+        <div class="glass-card recent-card">
+          <h4>🔥 Recent Posts</h4>
+          <div id="recentPosts">
+            <div class="recent-post-item">
+              <div class="recent-post-title">Need a booking system for my salon</div>
+              <div class="recent-post-meta">Mobile Dev · Open</div>
+            </div>
+            <div class="recent-post-item">
+              <div class="recent-post-title">Security audit for our company website</div>
+              <div class="recent-post-meta">Cybersecurity · Open</div>
+            </div>
+            <div class="recent-post-item">
+              <div class="recent-post-title">Logo and branding for new startup</div>
+              <div class="recent-post-meta">UI/UX · Open</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API = 'http://localhost:5000/api'
+    let editId = null
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Nav setup
+      const user = JSON.parse(localStorage.getItem('user') || 'null')
+      const token = localStorage.getItem('token')
+
+      if (user) {
+        const initials = user.name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2)
+        document.getElementById('navAvatar').textContent = initials
+        document.getElementById('navAvatar').style.display = 'flex'
+        document.getElementById('navMessages').style.display = 'inline'
+        document.getElementById('navLogin').style.display = 'none'
+        document.getElementById('navRegister').style.display = 'none'
+      }
+
+      // Set min date
+      document.getElementById('deadlineInput').min = new Date().toISOString().split('T')[0]
+
+      // Check if editing existing post
+      const params = new URLSearchParams(window.location.search)
+      editId = params.get('id')
+      if (editId && token) loadPostForEdit(editId, token)
+
+      // Load recent posts
+      loadRecentPosts()
+    })
+
+    async function loadPostForEdit(id, token) {
+      try {
+        const res = await fetch(`${API}/posts/${id}`)
+        const post = await res.json()
+        if (post.posted_by !== JSON.parse(localStorage.getItem('user')).id) return
+
+        document.getElementById('titleInput').value = post.title || ''
+        document.getElementById('descInput').value = post.description || ''
+        document.getElementById('skillSelect').value = post.skill_needed || ''
+        document.getElementById('deadlineInput').value = post.deadline ? post.deadline.split('T')[0] : ''
+        document.getElementById('budgetInput').value = post.budget || ''
+        document.getElementById('submitBtn').textContent = 'Update Post →'
+        document.querySelector('.post-header h1').innerHTML = 'Update your<br><em>post</em>'
+        updatePreview()
+      } catch {}
+    }
+
+    async function loadRecentPosts() {
+      try {
+        const res = await fetch(`${API}/posts`)
+        const posts = await res.json()
+        if (!Array.isArray(posts) || !posts.length) return
+
+        document.getElementById('recentPosts').innerHTML = posts.slice(0,3).map(p => `
+          <div class="recent-post-item">
+            <div class="recent-post-title">${p.title}</div>
+            <div class="recent-post-meta">${p.skill_needed || '—'} · ${p.status}</div>
+          </div>
+        `).join('')
+      } catch {}
+    }
+
+    async function handleSubmit() {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        showMsg('You must be logged in to post.', 'error')
+        setTimeout(() => window.location.href = 'login.html', 1500)
+        return
+      }
+
+      const title = document.getElementById('titleInput').value.trim()
+      const description = document.getElementById('descInput').value.trim()
+      const skill_needed = document.getElementById('skillSelect').value
+      const deadline = document.getElementById('deadlineInput').value
+      const budget = document.getElementById('budgetInput').value
+      const currency = document.getElementById('currencySelect').value
+
+      if (!title) { showMsg('Please enter a post title.', 'error'); return }
+      if (!description) { showMsg('Please describe what you need.', 'error'); return }
+      if (!skill_needed) { showMsg('Please select a skill category.', 'error'); return }
+
+      const btn = document.getElementById('submitBtn')
+      btn.disabled = true
+      btn.textContent = editId ? 'Updating...' : 'Posting...'
+
+      const payload = { title, description, skill_needed, deadline: deadline || null, budget: budget ? Number(budget) : null, currency }
+
+      try {
+        const url = editId ? `${API}/posts/${editId}` : `${API}/posts`
+        const method = editId ? 'PUT' : 'POST'
+
+        const res = await fetch(url, {
+          method,
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify(payload)
+        })
+
+        const data = await res.json()
+
+        if (!res.ok) {
+          showMsg(data.error || 'Failed to submit post.', 'error')
+          return
+        }
+
+        showMsg(editId ? 'Post updated successfully! Redirecting...' : 'Post published! Redirecting to dashboard...', 'success')
+        setTimeout(() => window.location.href = 'dashboard.html', 1500)
+
+      } catch {
+        showMsg('Cannot connect to server. Make sure backend is running.', 'error')
+      } finally {
+        btn.disabled = false
+        btn.textContent = editId ? 'Update Post →' : 'Post My Need →'
+      }
+    }
+
+    function showMsg(text, type) {
+      const el = document.getElementById('msg')
+      el.textContent = text
+      el.className = `msg ${type}`
+    }
+
+    function updatePreview() {
+      const title = document.getElementById('titleInput').value
+      const desc = document.getElementById('descInput').value
+      const skill = document.getElementById('skillSelect').value
+
+      const previewTitle = document.getElementById('previewTitle')
+      previewTitle.textContent = title || 'Your title will appear here...'
+      previewTitle.className = 'preview-title' + (title ? ' has-value' : '')
+
+      document.getElementById('previewDesc').textContent =
+        desc ? desc.substring(0,120) + (desc.length > 120 ? '...' : '') : 'Description preview...'
+
+      const badges = document.getElementById('previewBadges')
+      badges.innerHTML = skill ? `<span class="preview-badge">${skill}</span>` : ''
+    }
+
+    function updateCount(el, countId, max) {
+      const count = el.value.length
+      const el2 = document.getElementById(countId)
+      el2.textContent = count
+      el2.style.color = count > max * 0.9 ? '#ff8080' : 'rgba(255,255,255,0.35)'
+    }
+
+    function selectContact(el) {
+      document.querySelectorAll('.contact-opt').forEach(o => o.classList.remove('active'))
+      el.classList.add('active')
+    }
+  </script>
+</body>
+</html>

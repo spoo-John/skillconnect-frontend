@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile — SkillConnect</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+      color: #ffffff;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; gap: 24px;
+      padding: 0 32px; height: 60px;
+      background: rgba(15,32,39,0.75);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .nav-logo { font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; margin-right: auto; }
+    .nav-logo span { color: #8ab4f8; }
+    nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    nav a:hover { color: #fff; }
+    .nav-avatar {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, #8ab4f8, #7b61ff);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 13px; cursor: pointer; color: #fff;
+    }
+    .nav-btn { padding: 8px 18px; border-radius: 8px; font-weight: 600; font-size: 13px; text-decoration: none; transition: all 0.2s; }
+    .nav-btn-outline { border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); }
+    .nav-btn-outline:hover { border-color: #8ab4f8; color: #8ab4f8; }
+    .nav-btn-filled { background: #8ab4f8; color: #0f2027; font-weight: 700; }
+    .nav-btn-filled:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(138,180,248,0.4); }
+
+    /* BANNER */
+    .profile-banner {
+      height: 200px;
+      background: linear-gradient(135deg, rgba(138,180,248,0.12), rgba(123,97,255,0.12));
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      position: relative;
+    }
+    .banner-pattern {
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
+      background-size: 32px 32px;
+    }
+
+    .profile-body { max-width: 1100px; margin: 0 auto; padding: 0 40px 80px; position: relative; z-index: 1; }
+
+    /* PROFILE HEADER */
+    .profile-header {
+      display: flex; gap: 28px; align-items: flex-end;
+      margin-top: -50px; margin-bottom: 40px;
+    }
+    .profile-big-av {
+      width: 100px; height: 100px; font-size: 34px;
+      border-radius: 20px;
+      border: 3px solid #0f2027;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; color: white;
+      background: linear-gradient(135deg, #8ab4f8, #7b61ff);
+      flex-shrink: 0; position: relative;
+    }
+    .avail-badge {
+      position: absolute; bottom: -8px; right: -8px;
+      background: #00e682; color: #0f2027;
+      font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
+      padding: 3px 8px; border-radius: 50px;
+      border: 2px solid #0f2027;
+    }
+    .profile-header-info { flex: 1; padding-bottom: 6px; }
+    .profile-name { font-size: 30px; font-weight: 800; margin-bottom: 4px; }
+    .profile-role { font-size: 15px; color: rgba(255,255,255,0.5); margin-bottom: 10px; }
+    .profile-meta { display: flex; gap: 20px; flex-wrap: wrap; }
+    .meta-item { font-size: 13px; color: rgba(255,255,255,0.5); display: flex; align-items: center; gap: 5px; }
+    .profile-header-actions { display: flex; gap: 12px; align-items: flex-end; padding-bottom: 6px; }
+
+    .btn-primary {
+      padding: 10px 22px; background: #8ab4f8; color: #0f2027;
+      border: none; border-radius: 10px; font-weight: 700; font-size: 13px;
+      cursor: pointer; text-decoration: none; transition: all 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(138,180,248,0.4); }
+    .btn-secondary {
+      padding: 10px 20px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 10px; color: #fff;
+      font-weight: 600; font-size: 13px;
+      cursor: pointer; text-decoration: none; transition: all 0.2s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.12); }
+
+    /* LAYOUT */
+    .profile-layout { display: grid; grid-template-columns: 1fr 300px; gap: 28px; align-items: start; }
+
+    /* GLASS CARD */
+    .glass-card {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 16px; padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .section-heading {
+      font-size: 16px; font-weight: 700;
+      margin-bottom: 16px; padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .about-text { color: rgba(255,255,255,0.6); font-size: 14px; line-height: 1.8; margin-bottom: 10px; }
+
+    /* SKILLS */
+    .skills-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+    .skill-pill {
+      padding: 7px 16px; border-radius: 50px;
+      background: rgba(138,180,248,0.1);
+      border: 1px solid rgba(138,180,248,0.2);
+      color: #8ab4f8; font-size: 13px; font-weight: 600;
+      transition: all 0.2s; cursor: default;
+    }
+    .skill-pill:hover { background: rgba(138,180,248,0.18); transform: scale(1.04); }
+
+    /* PORTFOLIO */
+    .portfolio-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; }
+    .portfolio-card {
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      overflow: hidden;
+      background: rgba(255,255,255,0.05);
+      transition: all 0.3s;
+    }
+    .portfolio-card:hover { transform: translateY(-4px); border-color: rgba(138,180,248,0.3); }
+    .portfolio-thumb { height: 120px; display: flex; align-items: center; justify-content: center; font-size: 36px; }
+    .portfolio-info { padding: 12px; }
+    .portfolio-title { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+    .portfolio-desc { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.5; }
+    .portfolio-link { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: #8ab4f8; margin-top: 6px; text-decoration: none; font-weight: 600; }
+
+    /* REVIEWS */
+    .review-summary {
+      display: flex; gap: 24px; align-items: center;
+      padding: 20px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px; margin-bottom: 16px;
+    }
+    .big-rating { font-size: 52px; font-weight: 800; line-height: 1; color: #8ab4f8; }
+    .stars { color: #ffc940; }
+    .rating-bars { flex: 1; }
+    .rating-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; font-size: 12px; color: rgba(255,255,255,0.4); }
+    .bar-track { flex: 1; height: 5px; background: rgba(255,255,255,0.06); border-radius: 3px; }
+    .bar-fill { height: 100%; border-radius: 3px; background: #ffc940; }
+
+    .review-card {
+      padding: 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px; margin-bottom: 10px;
+    }
+    .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .reviewer { display: flex; align-items: center; gap: 10px; }
+    .rev-av { width: 34px; height: 34px; font-size: 13px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; }
+    .rev-name { font-weight: 700; font-size: 14px; }
+    .rev-date { font-size: 12px; color: rgba(255,255,255,0.4); }
+    .review-text { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+    /* CONTACT CARD */
+    .contact-card {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 16px; padding: 24px;
+      position: sticky; top: 80px; margin-bottom: 16px;
+    }
+    .contact-rate { text-align: center; margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .rate-big { font-size: 32px; font-weight: 800; color: #8ab4f8; }
+    .rate-label { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+    .contact-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+    .c-stat { text-align: center; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); }
+    .c-stat-val { font-weight: 800; font-size: 18px; }
+    .c-stat-label { font-size: 10px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+    .contact-btn-main {
+      width: 100%; padding: 14px;
+      background: #8ab4f8; color: #0f2027;
+      font-weight: 800; font-size: 14px;
+      border: none; border-radius: 50px; cursor: pointer; transition: all 0.25s;
+      margin-bottom: 10px; font-family: "Segoe UI", sans-serif;
+    }
+    .contact-btn-main:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(138,180,248,0.4); }
+    .contact-btn-sec {
+      width: 100%; padding: 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50px; color: rgba(255,255,255,0.8);
+      font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.2s;
+      font-family: "Segoe UI", sans-serif;
+    }
+    .contact-btn-sec:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); }
+    .response-time { text-align: center; margin-top: 12px; font-size: 12px; color: rgba(255,255,255,0.4); }
+    .response-time span { color: #00e682; font-weight: 600; }
+
+    .verified-card {
+      background: rgba(0,230,130,0.06);
+      border: 1px solid rgba(0,230,130,0.15);
+      border-radius: 14px; padding: 18px;
+    }
+    .verified-title { font-size: 13px; font-weight: 700; color: #00e682; margin-bottom: 6px; }
+    .verified-text { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+
+    /* OWN PROFILE EDIT */
+    .edit-banner {
+      background: rgba(138,180,248,0.08);
+      border: 1px solid rgba(138,180,248,0.2);
+      border-radius: 12px; padding: 14px 18px;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 20px; font-size: 14px; color: rgba(255,255,255,0.7);
+    }
+
+    .loading { text-align: center; padding: 60px; color: rgba(255,255,255,0.4); font-size: 15px; }
+    .empty { text-align: center; padding: 40px; color: rgba(255,255,255,0.35); font-size: 14px; }
+
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    .fade-up { animation: fadeInUp 0.5s ease both; }
+    .fade-up-2 { animation: fadeInUp 0.5s 0.1s ease both; }
+    .fade-up-3 { animation: fadeInUp 0.5s 0.2s ease both; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Skill<span>Connect</span></a>
+    <a href="browse.html">Browse Pros</a>
+    <a href="post-need.html">Post a Need</a>
+    <a href="messages.html" id="navMessages" style="display:none">Messages</a>
+    <div class="nav-avatar" id="navAvatar" style="display:none">?</div>
+    <a href="login.html" class="nav-btn nav-btn-outline" id="navLogin">Log In</a>
+    <a href="register.html" class="nav-btn nav-btn-filled" id="navRegister">Get Started</a>
+  </nav>
+
+  <div id="pageContent">
+    <div class="loading">Loading profile...</div>
+  </div>
+
+  <script>
+    const API = 'http://localhost:5000/api'
+    const COLORS = [
+      'linear-gradient(135deg,#8ab4f8,#7b61ff)',
+      'linear-gradient(135deg,#00e682,#8ab4f8)',
+      'linear-gradient(135deg,#7b61ff,#ff6b6b)',
+      'linear-gradient(135deg,#ff6b6b,#ff8e53)',
+      'linear-gradient(135deg,#00d4ff,#7b61ff)',
+    ]
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Nav setup
+      const loggedUser = JSON.parse(localStorage.getItem('user') || 'null')
+      if (loggedUser) {
+        const initials = loggedUser.name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2)
+        document.getElementById('navAvatar').textContent = initials
+        document.getElementById('navAvatar').style.display = 'flex'
+        document.getElementById('navMessages').style.display = 'inline'
+        document.getElementById('navLogin').style.display = 'none'
+        document.getElementById('navRegister').style.display = 'none'
+      }
+
+      // Get profile id from URL or logged in user
+      const params = new URLSearchParams(window.location.search)
+      const profileId = params.get('id') || (loggedUser ? loggedUser.id : null)
+
+      if (!profileId) {
+        document.getElementById('pageContent').innerHTML = `<div class="loading">No profile found. <a href="browse.html" style="color:#8ab4f8">Browse professionals →</a></div>`
+        return
+      }
+
+      loadProfile(profileId, loggedUser)
+    })
+
+    async function loadProfile(id, loggedUser) {
+      try {
+        const res = await fetch(`${API}/users/${id}`)
+        if (!res.ok) throw new Error('Not found')
+        const user = await res.json()
+        renderProfile(user, loggedUser)
+      } catch {
+        document.getElementById('pageContent').innerHTML = `<div class="loading">Profile not found. <a href="browse.html" style="color:#8ab4f8">Browse professionals →</a></div>`
+      }
+    }
+
+    function renderProfile(user, loggedUser) {
+      const initials = user.name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2)
+      const color = COLORS[user.id % COLORS.length] || COLORS[0]
+      const isOwn = loggedUser && loggedUser.id === user.id
+
+      let skills = []
+      try { skills = Array.isArray(user.skills) ? user.skills : JSON.parse(user.skills || '[]') } catch {}
+
+      const msgUrl = `messages.html?to=${user.id}`
+
+      document.title = `${user.name} — SkillConnect`
+
+      document.getElementById('pageContent').innerHTML = `
+        <div class="profile-banner"><div class="banner-pattern"></div></div>
+
+        <div class="profile-body">
+
+          ${isOwn ? `
+          <div class="edit-banner fade-up">
+            <span>👤 This is your profile — keep it up to date to attract more clients.</span>
+            <a href="dashboard.html" class="btn-secondary" style="padding:8px 16px;font-size:12px;">Go to Dashboard</a>
+          </div>` : ''}
+
+          <!-- HEADER -->
+          <div class="profile-header fade-up">
+            <div class="profile-big-av" style="background:${color}">
+              ${initials}
+              <span class="avail-badge">Available</span>
+            </div>
+            <div class="profile-header-info">
+              <h1 class="profile-name">${user.name}</h1>
+              <div class="profile-role">${skills[0] || 'Professional'} · SkillConnect</div>
+              <div class="profile-meta">
+                <span class="meta-item"><span class="stars">★★★★★</span> New Member</span>
+                <span class="meta-item">✅ Verified Account</span>
+                ${user.portfolio_link ? `<span class="meta-item"><a href="${user.portfolio_link}" target="_blank" style="color:#8ab4f8;text-decoration:none;">🔗 Portfolio</a></span>` : ''}
+              </div>
+            </div>
+            ${!isOwn ? `
+            <div class="profile-header-actions">
+              <a href="${msgUrl}" class="btn-secondary">💬 Message</a>
+              <a href="${msgUrl}" class="btn-primary">Hire ${user.name.split(' ')[0]} →</a>
+            </div>` : ''}
+          </div>
+
+          <div class="profile-layout">
+            <!-- LEFT -->
+            <div>
+              <!-- ABOUT -->
+              <div class="glass-card fade-up">
+                <div class="section-heading">👤 About</div>
+                ${user.bio
+                  ? `<p class="about-text">${user.bio}</p>`
+                  : `<p class="about-text" style="color:rgba(255,255,255,0.3);">No bio added yet.</p>`
+                }
+              </div>
+
+              <!-- SKILLS -->
+              <div class="glass-card fade-up-2">
+                <div class="section-heading">🛠️ Skills & Technologies</div>
+                ${skills.length
+                  ? `<div class="skills-cloud">${skills.map(s=>`<span class="skill-pill">${s}</span>`).join('')}</div>`
+                  : `<p style="color:rgba(255,255,255,0.3);font-size:14px;">No skills listed yet.</p>`
+                }
+              </div>
+
+              <!-- PORTFOLIO -->
+              ${user.portfolio_link ? `
+              <div class="glass-card fade-up-3">
+                <div class="section-heading">💼 Portfolio</div>
+                <div style="padding:16px;background:rgba(255,255,255,0.05);border-radius:10px;border:1px solid rgba(255,255,255,0.1);">
+                  <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:8px;">External Portfolio</div>
+                  <a href="${user.portfolio_link}" target="_blank" class="portfolio-link" style="font-size:14px;">🔗 ${user.portfolio_link} →</a>
+                </div>
+              </div>` : ''}
+
+              <!-- REVIEWS -->
+              <div class="glass-card fade-up">
+                <div class="section-heading">⭐ Reviews</div>
+                <div class="empty" style="padding:24px;">No reviews yet — be the first to work with ${user.name.split(' ')[0]}!</div>
+              </div>
+            </div>
+
+            <!-- RIGHT -->
+            <div>
+              <div class="contact-card fade-up-2">
+                <div class="contact-rate">
+                  <div class="rate-big">Available</div>
+                  <div class="rate-label">for hire on SkillConnect</div>
+                </div>
+                <div class="contact-stats">
+                  <div class="c-stat"><div class="c-stat-val">${skills.length}</div><div class="c-stat-label">Skills</div></div>
+                  <div class="c-stat"><div class="c-stat-val">New</div><div class="c-stat-label">Member</div></div>
+                  <div class="c-stat"><div class="c-stat-val">✅</div><div class="c-stat-label">Verified</div></div>
+                  <div class="c-stat"><div class="c-stat-val">—</div><div class="c-stat-label">Avg Reply</div></div>
+                </div>
+                ${!isOwn ? `
+                <button class="contact-btn-main" onclick="window.location='${msgUrl}'">💬 Send a Message</button>
+                <button class="contact-btn-sec">📋 Request a Quote</button>
+                <div class="response-time">Member of <span>SkillConnect</span></div>
+                ` : `
+                <a href="dashboard.html" class="contact-btn-main" style="display:block;text-align:center;text-decoration:none;">Go to Dashboard →</a>
+                `}
+              </div>
+
+              <div class="verified-card">
+                <div class="verified-title">✅ Verified Professional</div>
+                <div class="verified-text">Account verified · Skills listed · Active on SkillConnect</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `
+    }
+  </script>
+</body>
+</html>
