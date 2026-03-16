@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mobile Responsive Styles — SkillConnect</title>
+  <style>
+    /*
+    ============================================================
+    SKILLCONNECT — MOBILE RESPONSIVE STYLESHEET
+    Add this <style> block to the <head> of each HTML page,
+    OR save as css/mobile.css and link it in each page with:
+    <link rel="stylesheet" href="css/mobile.css"/>
+    ============================================================
+    */
+
+    /* ── GLOBAL MOBILE BASE ────────────────────────────────── */
+    @media (max-width: 768px) {
+
+      html, body {
+        overflow-x: hidden;
+      }
+
+      /* NAV */
+      nav {
+        padding: 0 16px !important;
+        height: 56px !important;
+        flex-wrap: nowrap;
+        gap: 12px !important;
+      }
+      .nav-logo { font-size: 17px !important; }
+      nav a:not(.nav-logo):not(.nav-btn):not(.nav-avatar):not(#navDash) {
+        display: none !important;
+      }
+      #navMessages { display: none !important; }
+      .nav-btn { padding: 6px 12px !important; font-size: 12px !important; }
+
+      /* HERO */
+      .hero {
+        flex-direction: column !important;
+        padding: 40px 20px !important;
+        gap: 32px !important;
+        min-height: auto !important;
+        text-align: center;
+      }
+      .hero-left { text-align: center; }
+      .hero-right { display: none !important; }
+      .hero h1 { font-size: clamp(28px, 8vw, 40px) !important; }
+      .hero-sub { font-size: 15px !important; max-width: 100% !important; }
+      .hero-ctas { justify-content: center !important; }
+      .hero-eyebrow { justify-content: center; }
+
+      /* STATS BAR */
+      .stats-bar {
+        padding: 24px 20px !important;
+        gap: 24px !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        display: grid !important;
+      }
+      .stat-num { font-size: 28px !important; }
+
+      /* SECTIONS */
+      section {
+        padding: 48px 20px !important;
+      }
+      .section-header h2 { font-size: clamp(24px, 7vw, 36px) !important; }
+
+      /* HOW GRID */
+      .how-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+      }
+
+      /* CATEGORIES */
+      .cat-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+      }
+      .cat-card { padding: 20px 12px !important; }
+      .cat-icon { font-size: 28px !important; }
+
+      /* WHY GRID */
+      .why-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+      }
+
+      /* TESTIMONIALS */
+      .testi-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+      }
+
+      /* CTA BANNER */
+      .cta-banner {
+        margin: 0 16px 48px !important;
+        padding: 36px 24px !important;
+      }
+      .cta-banner-btns {
+        flex-direction: column !important;
+        align-items: center;
+      }
+      .cta-banner-btns a { width: 100%; text-align: center; }
+
+      /* FOOTER */
+      footer {
+        flex-direction: column !important;
+        text-align: center;
+        gap: 12px !important;
+        padding: 24px 20px !important;
+      }
+      .footer-links { flex-wrap: wrap; justify-content: center; gap: 14px !important; }
+    }
+
+    /* ── LOGIN / REGISTER ──────────────────────────────────── */
+    @media (max-width: 600px) {
+      .glass {
+        padding: 28px 20px !important;
+        margin: 16px !important;
+        width: calc(100% - 32px) !important;
+      }
+      .register-box {
+        padding: 28px 20px !important;
+        max-width: 100% !important;
+      }
+      .register-page {
+        padding: 20px 16px !important;
+        align-items: flex-start;
+        padding-top: 24px !important;
+      }
+      .pw-row {
+        grid-template-columns: 1fr !important;
+        gap: 0 !important;
+      }
+      .role-toggle {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+      }
+      .role-card { padding: 14px 10px !important; }
+      .role-card-icon { font-size: 22px !important; }
+      input, textarea, select {
+        width: 100% !important;
+      }
+      h1 { font-size: 36px !important; }
+    }
+
+    /* ── DASHBOARD ─────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .dash-layout {
+        flex-direction: column !important;
+      }
+      .dash-nav, .dash-sidebar, .admin-sidebar {
+        width: 100% !important;
+        height: auto !important;
+        position: relative !important;
+        top: 0 !important;
+        border-right: none !important;
+        border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+        padding: 12px 16px !important;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        gap: 4px !important;
+        overflow-x: auto !important;
+      }
+      .dash-user, .sidebar-user {
+        display: none !important;
+      }
+      .dash-nav-section, .dash-nav-label, .sidebar-label {
+        display: none !important;
+      }
+      .dash-nav-item, .sidebar-item {
+        flex: none !important;
+        padding: 8px 12px !important;
+        font-size: 12px !important;
+        border-radius: 8px !important;
+        width: auto !important;
+      }
+      .dash-nav-item .nav-icon, .sidebar-item .icon {
+        font-size: 14px !important;
+      }
+      .dash-main, .admin-main {
+        padding: 20px 16px 40px !important;
+      }
+      .stats-row, .stats-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+      }
+      .stat-card-val, .stat-val { font-size: 22px !important; }
+      .two-col {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+      }
+      .rec-grid, .pros-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+      }
+      .dash-top {
+        flex-direction: column !important;
+        gap: 16px !important;
+        align-items: flex-start !important;
+      }
+      .dash-welcome h2 { font-size: 20px !important; }
+    }
+
+    @media (max-width: 600px) {
+      .stats-row, .stats-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+      .rec-grid, .pros-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .full-card, .glass-card {
+        padding: 16px !important;
+      }
+      .posts-table th:nth-child(2),
+      .posts-table td:nth-child(2) {
+        display: none;
+      }
+      .data-table th:nth-child(4),
+      .data-table td:nth-child(4),
+      .data-table th:nth-child(5),
+      .data-table td:nth-child(5) {
+        display: none;
+      }
+    }
+
+    /* ── BROWSE ────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .browse-body {
+        flex-direction: column !important;
+        padding: 0 20px 60px !important;
+      }
+      .sidebar {
+        width: 100% !important;
+        border-right: none !important;
+        border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+        padding: 20px 0 !important;
+      }
+      .sidebar-section { margin-bottom: 16px !important; }
+      .pros-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+      .browse-hero { padding: 32px 20px 28px !important; }
+      .browse-hero h1 { font-size: clamp(24px, 6vw, 40px) !important; }
+      .search-bar { margin: 0 0 16px !important; }
+      .filter-chips { gap: 6px !important; }
+      .chip { padding: 6px 12px !important; font-size: 12px !important; }
+      .results-header { flex-wrap: wrap; gap: 10px !important; }
+    }
+
+    @media (max-width: 600px) {
+      .pros-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .search-bar {
+        flex-direction: row !important;
+        padding: 6px 6px 6px 14px !important;
+      }
+      .search-bar input { font-size: 13px !important; }
+      .search-bar button { padding: 8px 14px !important; font-size: 12px !important; }
+    }
+
+    /* ── PROFILE ───────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .profile-layout {
+        grid-template-columns: 1fr !important;
+      }
+      .contact-card {
+        position: relative !important;
+        top: 0 !important;
+      }
+      .profile-header {
+        flex-wrap: wrap !important;
+        margin-top: -30px !important;
+      }
+      .profile-big-av {
+        width: 80px !important;
+        height: 80px !important;
+        font-size: 26px !important;
+      }
+      .profile-header-actions {
+        width: 100% !important;
+        padding-bottom: 0 !important;
+      }
+      .profile-name { font-size: 22px !important; }
+      .profile-body { padding: 0 20px 60px !important; }
+      .portfolio-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .profile-banner { height: 140px !important; }
+    }
+
+    /* ── POST NEED ─────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .post-page {
+        padding: 32px 20px 60px !important;
+      }
+      .post-body {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+      }
+      .tips-sidebar {
+        position: relative !important;
+        top: 0 !important;
+        order: -1;
+      }
+      .post-form { padding: 24px 20px !important; }
+      .post-header h1 { font-size: clamp(24px, 6vw, 40px) !important; }
+      .form-row {
+        grid-template-columns: 1fr !important;
+        gap: 0 !important;
+      }
+      .budget-row {
+        grid-template-columns: 100px 1fr !important;
+      }
+      .contact-options {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+      }
+      .submit-area {
+        flex-direction: column !important;
+      }
+      .submit-area a, .submit-area button {
+        width: 100% !important;
+        text-align: center !important;
+      }
+    }
+
+    /* ── MESSAGES ──────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      body { overflow: auto !important; }
+      .messages-layout {
+        flex-direction: column !important;
+        height: auto !important;
+      }
+      .conv-sidebar {
+        width: 100% !important;
+        height: 240px !important;
+        border-right: none !important;
+        border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+        flex-shrink: 0 !important;
+      }
+      .chat-window {
+        height: calc(100vh - 296px) !important;
+        min-height: 400px !important;
+      }
+      .messages-area { padding: 14px 16px !important; }
+      .chat-header { padding: 12px 16px !important; }
+      .chat-input-area { padding: 10px 16px !important; }
+      .msg-bubble { max-width: 85% !important; font-size: 13px !important; }
+    }
+
+    /* ── ADMIN ─────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .admin-layout {
+        flex-direction: column !important;
+      }
+      .admin-sidebar {
+        width: 100% !important;
+        height: auto !important;
+        position: relative !important;
+        top: 0 !important;
+        border-right: none !important;
+        border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+        padding: 10px !important;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        gap: 4px !important;
+        overflow-x: auto !important;
+      }
+      .admin-main {
+        padding: 20px 16px 40px !important;
+      }
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+      .charts-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+      }
+      .stat-val { font-size: 24px !important; }
+      .filter-bar {
+        flex-direction: column !important;
+        gap: 8px !important;
+      }
+      .search-input, .filter-select {
+        width: 100% !important;
+      }
+      /* Hide less important table columns on mobile */
+      .data-table th:nth-child(n+5),
+      .data-table td:nth-child(n+5) {
+        display: none !important;
+      }
+    }
+
+    /* ── HAMBURGER MENU ────────────────────────────────────── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: rgba(255,255,255,0.8);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    @media (max-width: 768px) {
+      .hamburger { display: flex !important; }
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 56px; left: 0; right: 0;
+        background: rgba(15,32,39,0.97);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        padding: 16px 20px;
+        z-index: 99;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .mobile-menu.open { display: flex !important; }
+      .mobile-menu a {
+        padding: 12px 16px;
+        border-radius: 10px;
+        color: rgba(255,255,255,0.7) !important;
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 500;
+        transition: all 0.2s;
+        display: block !important;
+      }
+      .mobile-menu a:hover { background: rgba(255,255,255,0.07); color: #fff !important; }
+      .mobile-menu .menu-divider {
+        height: 1px;
+        background: rgba(255,255,255,0.08);
+        margin: 8px 0;
+      }
+    }
+
+    /* ── GENERAL TOUCH TARGETS ─────────────────────────────── */
+    @media (max-width: 768px) {
+      button, .btn-primary, .btn-secondary, .btn-ghost,
+      .submit-btn, .submit-btn-main, .contact-btn-main {
+        min-height: 44px;
+      }
+      .action-btn { min-height: 32px; }
+      input, select, textarea { font-size: 16px !important; } /* prevent iOS zoom */
+    }
+
+    /* ── UTILITY ───────────────────────────────────────────── */
+    @media (max-width: 480px) {
+      .hide-mobile { display: none !important; }
+      .full-width-mobile { width: 100% !important; }
+    }
+  </style>
+</head>
+<body>
+  <!-- This file is just the CSS — copy the <style> block above into each HTML page's <head> -->
+  <div style="padding:40px;font-family:sans-serif;color:#fff;background:#0f2027;min-height:100vh;">
+    <h1 style="color:#8ab4f8;margin-bottom:16px;">📱 Mobile CSS Ready</h1>
+    <p style="color:rgba(255,255,255,0.6);line-height:1.8;max-width:600px;">
+      Copy the CSS from this file's &lt;style&gt; block and paste it into the &lt;head&gt; of each HTML page,
+      just before the closing &lt;/head&gt; tag. This adds full mobile responsiveness to all 8 pages + admin.
+    </p>
+  </div>
+</body>
+</html>
