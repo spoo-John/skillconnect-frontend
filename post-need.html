@@ -4,70 +4,107 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Post a Need — SkillConnect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      /* Core palette — clean & trustworthy */
+      --bg-page: #F6F8F7;
+      --bg-surface: #FFFFFF;
+      --bg-surface-2: #FBFCFB;
+      --bg-accent-soft: #E7F0EB;
+      --bg-accent-soft-strong: #D9E9E1;
+
+      --border: #DDE4E1;
+      --border-strong: #C3D0CA;
+
+      --text-primary: #16332B;
+      --text-secondary: #56655F;
+      --text-muted: #8B958F;
+      --text-on-accent: #FFFFFF;
+
+      --accent: #1B5E45;
+      --accent-hover: #164B38;
+      --accent-strong: #103D2E;
+
+      --danger: #B3261E;
+      --danger-bg: #FCEDEC;
+      --danger-border: #F3CAC7;
+
+      --success: #1B5E45;
+      --success-bg: #E7F0EB;
+      --success-border: #BFDACD;
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --shadow-card: 0 1px 2px rgba(22,51,43,0.04), 0 4px 16px rgba(22,51,43,0.04);
+    }
+
     html, body {
       min-height: 100vh;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
-      color: #ffffff;
+      background: var(--bg-page);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-primary);
     }
 
     /* NAV */
     nav {
       position: sticky; top: 0; z-index: 100;
       display: flex; align-items: center; gap: 24px;
-      padding: 0 32px; height: 60px;
-      background: rgba(15,32,39,0.75);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 0 32px; height: 64px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
     }
-    .nav-logo { font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; margin-right: auto; }
-    .nav-logo span { color: #8ab4f8; }
-    nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
-    nav a:hover { color: #fff; }
-    nav a.active { color: #8ab4f8; }
+    .nav-logo { font-size: 19px; font-weight: 700; color: var(--text-primary); text-decoration: none; margin-right: auto; letter-spacing: -0.2px; }
+    .nav-logo span { color: var(--accent); }
+    nav a { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    nav a:hover { color: var(--text-primary); }
+    nav a.active { color: var(--accent); }
     .nav-avatar {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: linear-gradient(135deg, #8ab4f8, #7b61ff);
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--accent);
       display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 13px; cursor: pointer; color: #fff;
+      font-weight: 600; font-size: 12px; cursor: pointer; color: #fff;
     }
-    .nav-btn { padding: 8px 18px; border-radius: 8px; font-weight: 600; font-size: 13px; text-decoration: none; transition: all 0.2s; }
-    .nav-btn-outline { border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); }
-    .nav-btn-outline:hover { border-color: #8ab4f8; color: #8ab4f8; }
-    .nav-btn-filled { background: #8ab4f8; color: #0f2027; font-weight: 700; }
-    .nav-btn-filled:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(138,180,248,0.4); }
+    .nav-btn { padding: 8px 18px; border-radius: var(--radius-sm); font-weight: 600; font-size: 13px; text-decoration: none; transition: all 0.2s; }
+    .nav-btn-outline { border: 1px solid var(--border-strong); color: var(--text-primary); }
+    .nav-btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .nav-btn-filled { background: var(--accent); color: #fff; }
+    .nav-btn-filled:hover { background: var(--accent-hover); }
 
     /* PAGE */
     .post-page {
       max-width: 1100px; margin: 0 auto;
-      padding: 60px 40px 80px;
+      padding: 56px 40px 80px;
       position: relative; z-index: 1;
     }
 
-    .post-header { text-align: center; margin-bottom: 52px; }
+    .post-header { text-align: center; margin-bottom: 48px; }
     .badge {
       display: inline-flex; align-items: center; gap: 6px;
-      padding: 6px 14px; border-radius: 50px; font-size: 12px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 1px;
-      background: rgba(138,180,248,0.12); color: #8ab4f8;
-      border: 1px solid rgba(138,180,248,0.25);
-      margin-bottom: 16px;
+      padding: 6px 14px; border-radius: 50px; font-size: 12px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.6px;
+      background: var(--bg-accent-soft); color: var(--accent);
+      border: 1px solid var(--bg-accent-soft-strong);
+      margin-bottom: 18px;
     }
-    .post-header h1 { font-size: clamp(30px,4vw,48px); font-weight: 800; margin-bottom: 12px; line-height: 1.2; }
-    .post-header h1 em { font-style: normal; color: #8ab4f8; }
-    .post-header p { color: rgba(255,255,255,0.5); font-size: 15px; max-width: 500px; margin: 0 auto; }
+    .post-header h1 { font-size: clamp(28px,4vw,44px); font-weight: 700; margin-bottom: 12px; line-height: 1.2; letter-spacing: -0.5px; }
+    .post-header h1 em { font-style: normal; color: var(--accent); }
+    .post-header p { color: var(--text-secondary); font-size: 15px; max-width: 500px; margin: 0 auto; line-height: 1.5; }
 
-    .post-body { display: grid; grid-template-columns: 1fr 320px; gap: 32px; align-items: start; }
+    .post-body { display: grid; grid-template-columns: 1fr 320px; gap: 28px; align-items: start; }
 
-    /* GLASS FORM */
+    /* FORM CARD */
     .post-form {
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 20px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
       padding: 40px;
     }
 
@@ -75,120 +112,121 @@
     .step-indicator { display: flex; align-items: center; margin-bottom: 36px; }
     .step { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; }
     .step-num {
-      width: 30px; height: 30px; border-radius: 50%;
+      width: 28px; height: 28px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 700;
+      font-size: 12px; font-weight: 700;
     }
-    .step.done .step-num { background: #8ab4f8; color: #0f2027; }
-    .step.active .step-num { background: rgba(138,180,248,0.15); color: #8ab4f8; border: 2px solid #8ab4f8; }
-    .step.inactive .step-num { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.15); }
-    .step.done span, .step.active span { color: #fff; }
-    .step.inactive span { color: rgba(255,255,255,0.4); }
-    .step-line { flex: 1; height: 1px; background: rgba(255,255,255,0.1); margin: 0 10px; }
+    .step.done .step-num { background: var(--accent); color: #fff; }
+    .step.active .step-num { background: var(--bg-accent-soft); color: var(--accent); border: 2px solid var(--accent); }
+    .step.inactive .step-num { background: var(--bg-surface-2); color: var(--text-muted); border: 1px solid var(--border); }
+    .step.done span, .step.active span { color: var(--text-primary); }
+    .step.inactive span { color: var(--text-muted); }
+    .step-line { flex: 1; height: 1px; background: var(--border); margin: 0 10px; }
 
     /* FORM ELEMENTS */
     .form-group { margin-bottom: 22px; }
     label {
       display: block; font-size: 13px; font-weight: 600;
-      color: #8ab4f8; margin-bottom: 8px;
-      text-transform: uppercase; letter-spacing: 0.8px;
+      color: var(--text-primary); margin-bottom: 8px;
     }
     input, select, textarea {
-      width: 100%; padding: 13px 16px;
-      background: rgba(0,0,0,0.3);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 10px; color: #fff;
-      font-size: 14px; font-family: "Segoe UI", sans-serif;
-      outline: none; transition: border-color 0.25s, box-shadow 0.25s;
+      width: 100%; padding: 12px 14px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm); color: var(--text-primary);
+      font-size: 14px; font-family: 'Inter', sans-serif;
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
       resize: vertical;
     }
-    input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.3); }
+    input::placeholder, textarea::placeholder { color: var(--text-muted); }
     input:focus, select:focus, textarea:focus {
-      border-color: #8ab4f8;
-      box-shadow: 0 0 0 3px rgba(138,180,248,0.12);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--bg-accent-soft);
     }
-    select option { background: #1a2a35; color: #fff; }
+    select option { background: #fff; color: var(--text-primary); }
 
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .char-count { text-align: right; font-size: 12px; color: rgba(255,255,255,0.35); margin-top: 4px; }
+    .char-count { text-align: right; font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
-    .budget-row { display: grid; grid-template-columns: 130px 1fr; gap: 12px; }
+    .budget-row { display: grid; grid-template-columns: 110px 1fr; gap: 12px; }
 
     /* CONTACT OPTIONS */
     .contact-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .contact-opt {
-      padding: 13px 16px;
-      border: 2px solid rgba(255,255,255,0.12);
-      border-radius: 10px;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border-strong);
+      border-radius: var(--radius-sm);
       display: flex; align-items: center; gap: 10px;
       cursor: pointer; transition: all 0.2s;
-      font-size: 14px; font-weight: 600;
-      color: rgba(255,255,255,0.6);
-      background: rgba(255,255,255,0.04);
+      font-size: 14px; font-weight: 500;
+      color: var(--text-secondary);
+      background: var(--bg-surface-2);
     }
-    .contact-opt:hover { border-color: rgba(138,180,248,0.4); color: #fff; }
-    .contact-opt.active { border-color: #8ab4f8; background: rgba(138,180,248,0.1); color: #8ab4f8; }
+    .contact-opt:hover { border-color: var(--accent); color: var(--text-primary); }
+    .contact-opt.active { border-color: var(--accent); background: var(--bg-accent-soft); color: var(--accent); }
     .contact-opt input { display: none; }
 
     /* SUBMIT */
     .submit-area { margin-top: 28px; display: flex; gap: 14px; }
     .btn-draft {
-      padding: 14px 24px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 50px; color: rgba(255,255,255,0.7);
+      padding: 13px 22px;
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-strong);
+      border-radius: 50px; color: var(--text-secondary);
       font-size: 14px; font-weight: 600;
       cursor: pointer; text-decoration: none; transition: all 0.2s;
       white-space: nowrap;
+      display: flex; align-items: center;
     }
-    .btn-draft:hover { background: rgba(255,255,255,0.12); color: #fff; }
+    .btn-draft:hover { background: var(--border); color: var(--text-primary); }
     .submit-btn-main {
-      flex: 1; padding: 15px;
-      background: #8ab4f8; color: #0f2027;
-      font-weight: 800; font-size: 15px;
-      border: none; border-radius: 50px; cursor: pointer; transition: all 0.25s;
-      font-family: "Segoe UI", sans-serif;
+      flex: 1; padding: 14px;
+      background: var(--accent); color: #fff;
+      font-weight: 600; font-size: 15px;
+      border: none; border-radius: 50px; cursor: pointer; transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
     }
-    .submit-btn-main:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(138,180,248,0.4); }
-    .submit-btn-main:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+    .submit-btn-main:hover { background: var(--accent-hover); }
+    .submit-btn-main:disabled { opacity: 0.6; cursor: not-allowed; }
 
     /* MSG */
-    .msg { margin-top: 16px; padding: 10px 16px; border-radius: 10px; font-size: 14px; display: none; }
-    .msg.error { background: rgba(255,80,80,0.12); border: 1px solid rgba(255,80,80,0.3); color: #ff8080; display: block; }
-    .msg.success { background: rgba(0,230,130,0.1); border: 1px solid rgba(0,230,130,0.25); color: #00e682; display: block; }
+    .msg { margin-top: 16px; padding: 10px 16px; border-radius: var(--radius-sm); font-size: 14px; display: none; font-weight: 500; }
+    .msg.error { background: var(--danger-bg); border: 1px solid var(--danger-border); color: var(--danger); display: block; }
+    .msg.success { background: var(--success-bg); border: 1px solid var(--success-border); color: var(--success); display: block; }
 
     /* SIDEBAR */
-    .tips-sidebar { position: sticky; top: 80px; }
+    .tips-sidebar { position: sticky; top: 84px; }
 
     .glass-card {
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 16px; padding: 24px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 22px;
       margin-bottom: 16px;
+      box-shadow: var(--shadow-card);
     }
 
-    .preview-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; color: rgba(255,255,255,0.4); margin-bottom: 10px; font-weight: 700; }
-    .preview-title { font-weight: 700; font-size: 16px; margin-bottom: 6px; color: rgba(255,255,255,0.35); }
-    .preview-title.has-value { color: #fff; }
-    .preview-desc { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+    .preview-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); margin-bottom: 10px; font-weight: 700; }
+    .preview-title { font-weight: 600; font-size: 16px; margin-bottom: 6px; color: var(--text-muted); }
+    .preview-title.has-value { color: var(--text-primary); }
+    .preview-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
     .preview-badges { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-    .preview-badge { padding: 3px 10px; border-radius: 50px; background: rgba(138,180,248,0.1); color: #8ab4f8; font-size: 11px; font-weight: 600; }
+    .preview-badge { padding: 3px 10px; border-radius: 50px; background: var(--bg-accent-soft); color: var(--accent); font-size: 11px; font-weight: 600; }
 
-    .tips-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 14px; }
-    .tip-item { display: flex; gap: 10px; margin-bottom: 12px; font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.5; }
+    .tips-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 14px; color: var(--text-primary); }
+    .tip-item { display: flex; gap: 10px; margin-bottom: 12px; font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+    .tip-item strong { color: var(--text-primary); }
     .tip-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
 
-    .recent-card { border-color: rgba(138,180,248,0.2); }
-    .recent-card h4 { color: #8ab4f8; font-size: 14px; font-weight: 700; margin-bottom: 14px; }
-    .recent-post-item { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .recent-card { border-color: var(--bg-accent-soft-strong); }
+    .recent-card h4 { color: var(--accent); font-size: 14px; font-weight: 700; margin-bottom: 14px; }
+    .recent-post-item { padding: 10px 0; border-bottom: 1px solid var(--border); }
     .recent-post-item:last-child { border-bottom: none; padding-bottom: 0; }
-    .recent-post-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-    .recent-post-meta { font-size: 12px; color: rgba(255,255,255,0.4); }
+    .recent-post-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; color: var(--text-primary); }
+    .recent-post-meta { font-size: 12px; color: var(--text-muted); }
 
-    @keyframes fadeInUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-    .fade-up { animation: fadeInUp 0.5s ease both; }
-    .fade-up-2 { animation: fadeInUp 0.5s 0.1s ease both; }
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+    .fade-up { animation: fadeInUp 0.4s ease both; }
+    .fade-up-2 { animation: fadeInUp 0.4s 0.08s ease both; }
   </style>
 
   <!-- MOBILE RESPONSIVE STYLES -->
@@ -215,7 +253,7 @@
     }
     @media (max-width: 900px) {
       .dash-layout, .admin-layout, .messages-layout { flex-direction: column !important; }
-      .dash-nav, .dash-sidebar, .admin-sidebar { width: 100% !important; height: auto !important; position: relative !important; top: 0 !important; border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.08) !important; padding: 10px 12px !important; display: flex !important; flex-direction: row !important; flex-wrap: wrap !important; gap: 4px !important; overflow-x: auto !important; }
+      .dash-nav, .dash-sidebar, .admin-sidebar { width: 100% !important; height: auto !important; position: relative !important; top: 0 !important; border-right: none !important; border-bottom: 1px solid var(--border) !important; padding: 10px 12px !important; display: flex !important; flex-direction: row !important; flex-wrap: wrap !important; gap: 4px !important; overflow-x: auto !important; }
       .dash-user, .sidebar-user, .dash-nav-section, .dash-nav-label, .sidebar-label { display: none !important; }
       .dash-nav-item, .sidebar-item { flex: none !important; padding: 8px 12px !important; font-size: 12px !important; width: auto !important; }
       .dash-main, .admin-main { padding: 20px 16px 40px !important; }
@@ -224,7 +262,7 @@
       .rec-grid, .pros-grid { grid-template-columns: repeat(2,1fr) !important; gap: 12px !important; }
       .dash-top { flex-direction: column !important; gap: 16px !important; align-items: flex-start !important; }
       .browse-body { flex-direction: column !important; padding: 0 20px 60px !important; }
-      .sidebar { width: 100% !important; border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.08) !important; padding: 20px 0 !important; }
+      .sidebar { width: 100% !important; border-right: none !important; border-bottom: 1px solid var(--border) !important; padding: 20px 0 !important; }
       .profile-layout { grid-template-columns: 1fr !important; }
       .contact-card { position: relative !important; top: 0 !important; }
       .profile-header { flex-wrap: wrap !important; margin-top: -30px !important; }
@@ -242,22 +280,22 @@
       .pros-grid, .rec-grid { grid-template-columns: 1fr !important; }
       input, select, textarea { font-size: 16px !important; }
       .full-card, .glass-card { padding: 16px !important; }
-      .post-form { padding: 20px 16px !important; }
+      .post-form { padding: 24px 18px !important; }
       .search-input, .filter-select { width: 100% !important; }
       .filter-bar { flex-direction: column !important; gap: 8px !important; }
     }
     @media (max-width: 768px) {
       body.messages-page { overflow: auto !important; }
-      .conv-sidebar { width: 100% !important; height: 220px !important; border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.08) !important; flex-shrink: 0 !important; }
+      .conv-sidebar { width: 100% !important; height: 220px !important; border-right: none !important; border-bottom: 1px solid var(--border) !important; flex-shrink: 0 !important; }
       .chat-window { height: calc(100vh - 276px) !important; min-height: 380px !important; }
       .msg-bubble { max-width: 85% !important; }
     }
     .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
-    .hamburger span { display: block; width: 22px; height: 2px; background: rgba(255,255,255,0.8); border-radius: 2px; transition: all 0.3s; }
-    .mobile-menu { display: none; position: fixed; top: 56px; left: 0; right: 0; background: rgba(15,32,39,0.97); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 16px; z-index: 99; flex-direction: column; gap: 4px; }
-    .mobile-menu a { padding: 12px 16px; border-radius: 10px; color: rgba(255,255,255,0.7) !important; text-decoration: none; font-size: 15px; font-weight: 500; display: block !important; }
-    .mobile-menu a:hover { background: rgba(255,255,255,0.07); color: #fff !important; }
-    .mobile-menu .menu-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 8px 0; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: all 0.3s; }
+    .mobile-menu { display: none; position: fixed; top: 56px; left: 0; right: 0; background: rgba(255,255,255,0.98); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 12px 16px; z-index: 99; flex-direction: column; gap: 4px; }
+    .mobile-menu a { padding: 12px 16px; border-radius: 10px; color: var(--text-secondary) !important; text-decoration: none; font-size: 15px; font-weight: 500; display: block !important; }
+    .mobile-menu a:hover { background: var(--bg-surface-2); color: var(--text-primary) !important; }
+    .mobile-menu .menu-divider { height: 1px; background: var(--border); margin: 8px 0; }
     @media (max-width: 768px) { .hamburger { display: flex !important; } }
   </style>
 
@@ -276,7 +314,7 @@
 
   <div class="post-page">
     <div class="post-header fade-up">
-      <span class="badge">📋 Post a Need</span>
+      <span class="badge">Post a Need</span>
       <h1>Tell us what you<br>need <em>done</em></h1>
       <p>No tech knowledge needed — just describe what you want to achieve and let professionals come to you.</p>
     </div>
@@ -294,19 +332,19 @@
         </div>
 
         <div class="form-group">
-          <label>Post Title <span style="color:rgba(255,255,255,0.35);text-transform:none;letter-spacing:0;font-weight:400">(be specific)</span></label>
+          <label>Post title <span style="color:var(--text-muted);text-transform:none;letter-spacing:0;font-weight:400">(be specific)</span></label>
           <input type="text" id="titleInput" placeholder='e.g. "Need a landing page for my bakery business"' oninput="updatePreview()"/>
         </div>
 
         <div class="form-group">
-          <label>Describe What You Need</label>
+          <label>Describe what you need</label>
           <textarea rows="5" id="descInput" placeholder="Explain what you want built or done. The more detail you give, the better responses you'll get..." oninput="updatePreview(); updateCount(this,'descCount',1000)"></textarea>
           <div class="char-count"><span id="descCount">0</span> / 1000</div>
         </div>
 
         <div class="form-row">
           <div class="form-group">
-            <label>Skill Category Needed</label>
+            <label>Skill category needed</label>
             <select id="skillSelect" onchange="updatePreview()">
               <option value="">Select a skill...</option>
               <option value="Frontend Dev">Frontend Development</option>
@@ -341,19 +379,19 @@
         </div>
 
         <div class="form-group">
-          <label>Preferred Contact Method</label>
+          <label>Preferred contact method</label>
           <div class="contact-options">
             <label class="contact-opt active" onclick="selectContact(this)">
-              <input type="radio" name="contact"/> 💬 Platform Messages
+              <input type="radio" name="contact"/> Platform messages
             </label>
             <label class="contact-opt" onclick="selectContact(this)">
-              <input type="radio" name="contact"/> 📧 Email Only
+              <input type="radio" name="contact"/> Email only
             </label>
           </div>
         </div>
 
         <div class="form-group">
-          <label>Additional Notes <span style="color:rgba(255,255,255,0.35);text-transform:none;letter-spacing:0;font-weight:400">(optional)</span></label>
+          <label>Additional notes <span style="color:var(--text-muted);text-transform:none;letter-spacing:0;font-weight:400">(optional)</span></label>
           <textarea rows="3" id="notesInput" placeholder="Any specific requirements, style preferences, examples of work you like..."></textarea>
         </div>
 
@@ -361,7 +399,7 @@
 
         <div class="submit-area">
           <a href="dashboard.html" class="btn-draft">← Back</a>
-          <button class="submit-btn-main" id="submitBtn" onclick="handleSubmit()">Post My Need →</button>
+          <button class="submit-btn-main" id="submitBtn" onclick="handleSubmit()">Post my need →</button>
         </div>
       </div>
 
@@ -370,7 +408,7 @@
 
         <!-- Live preview -->
         <div class="glass-card">
-          <div class="preview-label">📄 Live Preview</div>
+          <div class="preview-label">Live preview</div>
           <div class="preview-title" id="previewTitle">Your title will appear here...</div>
           <div class="preview-desc" id="previewDesc">Description preview...</div>
           <div class="preview-badges" id="previewBadges"></div>
@@ -378,16 +416,16 @@
 
         <!-- Tips -->
         <div class="glass-card tips-card">
-          <h4>💡 Tips for a great post</h4>
-          <div class="tip-item"><span class="tip-icon">🎯</span><span><strong>Be specific.</strong> Instead of "need a website" say "need a 5-page website for my bakery with an online menu"</span></div>
-          <div class="tip-item"><span class="tip-icon">💰</span><span><strong>Set a realistic budget.</strong> Professionals are more likely to respond if budget expectations are clear</span></div>
-          <div class="tip-item"><span class="tip-icon">📅</span><span><strong>Give a real deadline.</strong> This helps pros know if they have the availability</span></div>
-          <div class="tip-item"><span class="tip-icon">🔗</span><span><strong>Share examples.</strong> Link to websites or apps you like in the notes field</span></div>
+          <h4>Tips for a great post</h4>
+          <div class="tip-item"><span><strong>Be specific.</strong> Instead of "need a website" say "need a 5-page website for my bakery with an online menu"</span></div>
+          <div class="tip-item"><span><strong>Set a realistic budget.</strong> Professionals are more likely to respond if budget expectations are clear</span></div>
+          <div class="tip-item"><span><strong>Give a real deadline.</strong> This helps pros know if they have the availability</span></div>
+          <div class="tip-item"><span><strong>Share examples.</strong> Link to websites or apps you like in the notes field</span></div>
         </div>
 
         <!-- Recent posts -->
         <div class="glass-card recent-card">
-          <h4>🔥 Recent Posts</h4>
+          <h4>Recent posts</h4>
           <div id="recentPosts">
             <div class="recent-post-item">
               <div class="recent-post-title">Need a booking system for my salon</div>
@@ -449,7 +487,7 @@
         document.getElementById('skillSelect').value = post.skill_needed || ''
         document.getElementById('deadlineInput').value = post.deadline ? post.deadline.split('T')[0] : ''
         document.getElementById('budgetInput').value = post.budget || ''
-        document.getElementById('submitBtn').textContent = 'Update Post →'
+        document.getElementById('submitBtn').textContent = 'Update post →'
         document.querySelector('.post-header h1').innerHTML = 'Update your<br><em>post</em>'
         updatePreview()
       } catch {}
@@ -512,14 +550,14 @@
           return
         }
 
-        showMsg(editId ? 'Post updated successfully! Redirecting...' : 'Post published! Redirecting to dashboard...', 'success')
+        showMsg(editId ? 'Post updated. Redirecting...' : 'Post published. Redirecting to dashboard...', 'success')
         setTimeout(() => window.location.href = 'dashboard.html', 1500)
 
       } catch {
         showMsg('Cannot connect to server. Make sure backend is running.', 'error')
       } finally {
         btn.disabled = false
-        btn.textContent = editId ? 'Update Post →' : 'Post My Need →'
+        btn.textContent = editId ? 'Update post →' : 'Post my need →'
       }
     }
 
@@ -549,7 +587,7 @@
       const count = el.value.length
       const el2 = document.getElementById(countId)
       el2.textContent = count
-      el2.style.color = count > max * 0.9 ? '#ff8080' : 'rgba(255,255,255,0.35)'
+      el2.style.color = count > max * 0.9 ? 'var(--danger)' : 'var(--text-muted)'
     }
 
     function selectContact(el) {
@@ -561,31 +599,26 @@
   <!-- MOBILE HAMBURGER MENU -->
   <script>
     (function() {
-      // Add hamburger button and mobile menu to nav
       window.addEventListener('DOMContentLoaded', function() {
         const nav = document.querySelector('nav');
         if (!nav) return;
 
-        // Create hamburger
         const hamburger = document.createElement('button');
         hamburger.className = 'hamburger';
         hamburger.setAttribute('aria-label', 'Menu');
         hamburger.innerHTML = '<span></span><span></span><span></span>';
         nav.appendChild(hamburger);
 
-        // Create mobile menu
         const mobileMenu = document.createElement('div');
         mobileMenu.className = 'mobile-menu';
         mobileMenu.id = 'mobileMenu';
 
-        // Get nav links
         const links = nav.querySelectorAll('a:not(.nav-logo)');
         links.forEach(link => {
           const clone = link.cloneNode(true);
           mobileMenu.appendChild(clone);
         });
 
-        // Add sign out if logged in
         const user = JSON.parse(localStorage.getItem('user') || 'null');
         if (user) {
           const divider = document.createElement('div');
@@ -593,8 +626,8 @@
           mobileMenu.appendChild(divider);
           const signout = document.createElement('a');
           signout.href = '#';
-          signout.textContent = '🚪 Sign Out';
-          signout.style.color = '#ff8080';
+          signout.textContent = 'Sign out';
+          signout.style.color = 'var(--danger)';
           signout.addEventListener('click', function(e) {
             e.preventDefault();
             localStorage.clear();
@@ -609,7 +642,6 @@
           mobileMenu.classList.toggle('open');
         });
 
-        // Close on outside click
         document.addEventListener('click', function(e) {
           if (!nav.contains(e.target)) {
             mobileMenu.classList.remove('open');
