@@ -4,115 +4,136 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Messages — SkillConnect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --bg-page: #F6F8F7;
+      --bg-surface: #FFFFFF;
+      --bg-surface-2: #FBFCFB;
+      --bg-accent-soft: #E7F0EB;
+      --bg-accent-soft-strong: #D9E9E1;
+      --border: #DDE4E1;
+      --border-strong: #C3D0CA;
+      --text-primary: #16332B;
+      --text-secondary: #56655F;
+      --text-muted: #8B958F;
+      --accent: #1B5E45;
+      --accent-hover: #164B38;
+      --danger: #B3261E;
+      --online: #1B5E45;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --shadow-card: 0 1px 2px rgba(22,51,43,0.04), 0 4px 16px rgba(22,51,43,0.04);
+    }
+
     html, body {
       height: 100vh; overflow: hidden;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
-      color: #ffffff;
+      background: var(--bg-page);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-primary);
     }
 
     /* NAV */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; gap: 24px;
-      padding: 0 32px; height: 60px;
-      background: rgba(15,32,39,0.85);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 0 32px; height: 64px;
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
     }
-    .nav-logo { font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; margin-right: auto; }
-    .nav-logo span { color: #8ab4f8; }
-    nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
-    nav a:hover { color: #fff; }
+    .nav-logo { font-size: 19px; font-weight: 700; color: var(--text-primary); text-decoration: none; margin-right: auto; letter-spacing: -0.2px; }
+    .nav-logo span { color: var(--accent); }
+    nav a { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    nav a:hover { color: var(--text-primary); }
     .nav-avatar {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: linear-gradient(135deg, #8ab4f8, #7b61ff);
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--accent);
       display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 13px; cursor: pointer; color: #fff;
+      font-weight: 600; font-size: 12px; cursor: pointer; color: #fff;
     }
-    .nav-btn { padding: 8px 18px; border-radius: 8px; font-weight: 600; font-size: 13px; text-decoration: none; transition: all 0.2s; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); }
-    .nav-btn:hover { border-color: #8ab4f8; color: #8ab4f8; }
+    .nav-btn { padding: 8px 18px; border-radius: var(--radius-sm); font-weight: 600; font-size: 13px; text-decoration: none; transition: all 0.2s; border: 1px solid var(--border-strong); color: var(--text-primary); }
+    .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
 
     /* LAYOUT */
     .messages-layout {
       display: flex;
-      height: calc(100vh - 60px);
-      margin-top: 60px;
+      height: calc(100vh - 64px);
+      margin-top: 64px;
       position: relative; z-index: 1;
     }
 
     /* CONVERSATIONS SIDEBAR */
     .conv-sidebar {
       width: 300px; flex-shrink: 0;
-      border-right: 1px solid rgba(255,255,255,0.08);
+      border-right: 1px solid var(--border);
       display: flex; flex-direction: column;
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(12px);
+      background: var(--bg-surface);
     }
     .conv-header {
       padding: 20px 16px 14px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid var(--border);
     }
-    .conv-header h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+    .conv-header h3 { font-size: 17px; font-weight: 700; margin-bottom: 12px; }
     .conv-search {
       display: flex; align-items: center; gap: 8px;
       padding: 9px 14px;
-      background: rgba(0,0,0,0.25);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 50px; transition: border-color 0.25s;
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-strong);
+      border-radius: 50px; transition: border-color 0.2s;
     }
-    .conv-search:focus-within { border-color: #8ab4f8; }
-    .conv-search input { flex: 1; border: none; background: transparent; color: #fff; font-size: 13px; outline: none; }
-    .conv-search input::placeholder { color: rgba(255,255,255,0.3); }
+    .conv-search:focus-within { border-color: var(--accent); }
+    .conv-search input { flex: 1; border: none; background: transparent; color: var(--text-primary); font-size: 13px; outline: none; }
+    .conv-search input::placeholder { color: var(--text-muted); }
 
     .conv-list { flex: 1; overflow-y: auto; }
     .conv-item {
       display: flex; gap: 12px; align-items: center;
       padding: 13px 16px;
       cursor: pointer; transition: background 0.2s;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid var(--border);
     }
-    .conv-item:hover { background: rgba(255,255,255,0.04); }
-    .conv-item.active { background: rgba(138,180,248,0.1); border-right: 2px solid #8ab4f8; }
+    .conv-item:hover { background: var(--bg-surface-2); }
+    .conv-item.active { background: var(--bg-accent-soft); border-right: 2px solid var(--accent); }
     .conv-av-wrap { position: relative; flex-shrink: 0; }
-    .conv-av { width: 42px; height: 42px; font-size: 15px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; }
-    .conv-online { width: 10px; height: 10px; border-radius: 50%; background: #00e682; border: 2px solid #0f2027; position: absolute; bottom: -1px; right: -1px; }
+    .conv-av { width: 42px; height: 42px; font-size: 14px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; }
+    .conv-online { width: 10px; height: 10px; border-radius: 50%; background: var(--online); border: 2px solid var(--bg-surface); position: absolute; bottom: -1px; right: -1px; }
     .conv-info { flex: 1; min-width: 0; }
     .conv-name { font-weight: 700; font-size: 13px; margin-bottom: 3px; }
-    .conv-preview { font-size: 12px; color: rgba(255,255,255,0.45); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .conv-preview { font-size: 12px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .conv-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex-shrink: 0; }
-    .conv-time { font-size: 11px; color: rgba(255,255,255,0.35); }
-    .conv-unread { background: #8ab4f8; color: #0f2027; font-size: 10px; font-weight: 800; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .conv-time { font-size: 11px; color: var(--text-muted); }
 
-    .conv-empty { padding: 40px 20px; text-align: center; color: rgba(255,255,255,0.35); font-size: 13px; }
+    .conv-empty { padding: 40px 20px; text-align: center; color: var(--text-muted); font-size: 13px; }
 
     /* CHAT WINDOW */
-    .chat-window { flex: 1; display: flex; flex-direction: column; background: rgba(0,0,0,0.15); }
+    .chat-window { flex: 1; display: flex; flex-direction: column; background: var(--bg-page); }
 
     /* CHAT HEADER */
     .chat-header {
       display: flex; align-items: center; gap: 14px;
       padding: 14px 24px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-surface);
     }
-    .chat-header-av { width: 40px; height: 40px; font-size: 15px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; }
+    .chat-header-av { width: 40px; height: 40px; font-size: 14px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; }
     .chat-header-info { flex: 1; }
     .chat-header-name { font-weight: 700; font-size: 15px; }
-    .chat-header-status { font-size: 12px; color: #00e682; margin-top: 1px; }
+    .chat-header-status { font-size: 12px; color: var(--online); margin-top: 1px; }
     .chat-header-actions { display: flex; gap: 8px; }
     .icon-btn {
       width: 34px; height: 34px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-strong);
       border-radius: 9px; display: flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: all 0.2s; font-size: 14px; text-decoration: none; color: #fff;
+      cursor: pointer; transition: all 0.2s; font-size: 13px; text-decoration: none; color: var(--text-primary);
     }
-    .icon-btn:hover { background: rgba(255,255,255,0.12); }
+    .icon-btn:hover { background: var(--bg-accent-soft); border-color: var(--accent); }
 
     /* MESSAGES AREA */
     .messages-area {
@@ -121,8 +142,8 @@
       display: flex; flex-direction: column; gap: 14px;
     }
 
-    .day-divider { text-align: center; font-size: 11px; color: rgba(255,255,255,0.35); display: flex; align-items: center; gap: 12px; }
-    .day-divider::before, .day-divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.07); }
+    .day-divider { text-align: center; font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 12px; }
+    .day-divider::before, .day-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
     .msg-group { display: flex; flex-direction: column; gap: 4px; }
     .msg-row { display: flex; gap: 8px; align-items: flex-end; }
@@ -132,20 +153,20 @@
       border-radius: 16px; font-size: 14px; line-height: 1.6;
     }
     .msg-row.received .msg-bubble {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-bottom-left-radius: 4px; color: #fff;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 4px; color: var(--text-primary);
     }
     .msg-row.sent .msg-bubble {
-      background: #8ab4f8; color: #0f2027;
+      background: var(--accent); color: #fff;
       border-bottom-right-radius: 4px; font-weight: 500;
     }
-    .msg-time { font-size: 11px; color: rgba(255,255,255,0.35); padding: 0 4px 2px; white-space: nowrap; }
+    .msg-time { font-size: 11px; color: var(--text-muted); padding: 0 4px 2px; white-space: nowrap; }
     .msg-av-sm { width: 28px; height: 28px; font-size: 10px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; flex-shrink: 0; }
 
     .typing-indicator { display: flex; align-items: center; gap: 8px; }
-    .typing-dots { display: flex; gap: 4px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); padding: 10px 14px; border-radius: 16px; border-bottom-left-radius: 4px; }
-    .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.4); animation: typingBounce 1.2s infinite; }
+    .typing-dots { display: flex; gap: 4px; background: var(--bg-surface); border: 1px solid var(--border); padding: 10px 14px; border-radius: 16px; border-bottom-left-radius: 4px; }
+    .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-muted); animation: typingBounce 1.2s infinite; }
     .typing-dot:nth-child(2) { animation-delay: 0.2s; }
     .typing-dot:nth-child(3) { animation-delay: 0.4s; }
     @keyframes typingBounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
@@ -153,117 +174,58 @@
     /* INPUT */
     .chat-input-area {
       padding: 14px 24px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.04);
-      backdrop-filter: blur(10px);
+      border-top: 1px solid var(--border);
+      background: var(--bg-surface);
     }
     .input-row { display: flex; gap: 10px; align-items: flex-end; }
     .chat-input-wrap {
-      flex: 1; background: rgba(0,0,0,0.3);
-      border: 1px solid rgba(255,255,255,0.15);
+      flex: 1; background: var(--bg-surface-2);
+      border: 1px solid var(--border-strong);
       border-radius: 14px; padding: 11px 16px;
-      transition: border-color 0.25s;
+      transition: border-color 0.2s;
     }
-    .chat-input-wrap:focus-within { border-color: #8ab4f8; }
+    .chat-input-wrap:focus-within { border-color: var(--accent); }
     .chat-textarea {
       width: 100%; background: transparent; border: none;
-      color: #fff; font-family: "Segoe UI", sans-serif; font-size: 14px;
+      color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 14px;
       outline: none; resize: none; max-height: 120px; line-height: 1.5;
     }
-    .chat-textarea::placeholder { color: rgba(255,255,255,0.3); }
+    .chat-textarea::placeholder { color: var(--text-muted); }
     .send-btn {
-      width: 44px; height: 44px; background: #8ab4f8;
+      width: 44px; height: 44px; background: var(--accent);
       border: none; border-radius: 12px; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      transition: all 0.25s; font-size: 16px; flex-shrink: 0; color: #0f2027;
+      transition: all 0.2s; font-size: 16px; flex-shrink: 0; color: #fff;
     }
-    .send-btn:hover { transform: scale(1.08); box-shadow: 0 6px 18px rgba(138,180,248,0.4); }
-    .send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .send-btn:hover { background: var(--accent-hover); }
+    .send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
     /* EMPTY STATE */
     .empty-chat {
       flex: 1; display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      color: rgba(255,255,255,0.35); text-align: center; padding: 40px;
+      color: var(--text-muted); text-align: center; padding: 40px;
     }
-    .empty-icon { font-size: 52px; margin-bottom: 16px; opacity: 0.5; }
-    .empty-title { font-weight: 700; font-size: 20px; color: rgba(255,255,255,0.7); margin-bottom: 8px; }
-    .empty-sub { font-size: 14px; line-height: 1.6; }
+    .empty-title { font-weight: 700; font-size: 19px; color: var(--text-primary); margin-bottom: 8px; }
+    .empty-sub { font-size: 14px; line-height: 1.6; color: var(--text-secondary); }
 
-    .loading-msg { text-align: center; padding: 20px; color: rgba(255,255,255,0.4); font-size: 13px; }
+    .loading-msg { text-align: center; padding: 20px; color: var(--text-muted); font-size: 13px; }
 
-    /* MSG status */
-    .msg-status { font-size: 10px; color: rgba(255,255,255,0.35); text-align: right; margin-top: 2px; }
+    .msg-status { font-size: 10px; color: var(--text-muted); text-align: right; margin-top: 2px; }
   </style>
 
   <!-- MOBILE RESPONSIVE STYLES -->
   <style>
     @media (max-width: 768px) {
-      html, body { overflow-x: hidden; }
-      nav { padding: 0 16px !important; height: 56px !important; gap: 12px !important; }
-      .nav-logo { font-size: 17px !important; }
-      nav a:not(.nav-logo):not(.nav-btn):not(.nav-avatar):not(#navDash):not(#navMessages):not(.active) { display: none !important; }
-      .hamburger { display: flex !important; }
-      .mobile-menu.open { display: flex !important; }
-      .hero { flex-direction: column !important; padding: 40px 20px !important; gap: 32px !important; min-height: auto !important; text-align: center; }
-      .hero-right { display: none !important; }
-      .hero-ctas, .cta-banner-btns { justify-content: center !important; }
-      .hero-eyebrow { justify-content: center; }
-      .stats-bar { display: grid !important; grid-template-columns: repeat(2,1fr) !important; padding: 24px 20px !important; gap: 20px !important; }
-      section { padding: 48px 20px !important; }
-      .how-grid, .testi-grid, .why-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
-      .cat-grid { grid-template-columns: repeat(2,1fr) !important; gap: 12px !important; }
-      .cta-banner { margin: 0 16px 48px !important; padding: 36px 20px !important; }
-      .cta-banner-btns { flex-direction: column !important; align-items: center; }
-      footer { flex-direction: column !important; text-align: center; gap: 12px !important; padding: 24px 20px !important; }
-      .footer-links { flex-wrap: wrap; justify-content: center; }
-    }
-    @media (max-width: 900px) {
-      .dash-layout, .admin-layout, .messages-layout { flex-direction: column !important; }
-      .dash-nav, .dash-sidebar, .admin-sidebar { width: 100% !important; height: auto !important; position: relative !important; top: 0 !important; border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.08) !important; padding: 10px 12px !important; display: flex !important; flex-direction: row !important; flex-wrap: wrap !important; gap: 4px !important; overflow-x: auto !important; }
-      .dash-user, .sidebar-user, .dash-nav-section, .dash-nav-label, .sidebar-label { display: none !important; }
-      .dash-nav-item, .sidebar-item { flex: none !important; padding: 8px 12px !important; font-size: 12px !important; width: auto !important; }
-      .dash-main, .admin-main { padding: 20px 16px 40px !important; }
-      .stats-row, .stats-grid { grid-template-columns: repeat(2,1fr) !important; gap: 12px !important; }
-      .two-col, .post-body { grid-template-columns: 1fr !important; gap: 16px !important; }
-      .rec-grid, .pros-grid { grid-template-columns: repeat(2,1fr) !important; gap: 12px !important; }
-      .dash-top { flex-direction: column !important; gap: 16px !important; align-items: flex-start !important; }
-      .browse-body { flex-direction: column !important; padding: 0 20px 60px !important; }
-      .sidebar { width: 100% !important; border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.08) !important; padding: 20px 0 !important; }
-      .profile-layout { grid-template-columns: 1fr !important; }
-      .contact-card { position: relative !important; top: 0 !important; }
-      .profile-header { flex-wrap: wrap !important; margin-top: -30px !important; }
-      .profile-body { padding: 0 20px 60px !important; }
-      .tips-sidebar { position: relative !important; top: 0 !important; }
-      .form-row, .contact-options { grid-template-columns: 1fr !important; gap: 0 !important; }
-      .submit-area { flex-direction: column !important; }
-      .charts-grid { grid-template-columns: 1fr !important; }
-      .portfolio-grid { grid-template-columns: 1fr !important; }
-    }
-    @media (max-width: 600px) {
-      .glass { padding: 28px 20px !important; }
-      .register-box { padding: 28px 20px !important; }
-      .pw-row { grid-template-columns: 1fr !important; }
-      .pros-grid, .rec-grid { grid-template-columns: 1fr !important; }
-      input, select, textarea { font-size: 16px !important; }
-      .full-card, .glass-card { padding: 16px !important; }
-      .post-form { padding: 20px 16px !important; }
-      .search-input, .filter-select { width: 100% !important; }
-      .filter-bar { flex-direction: column !important; gap: 8px !important; }
-    }
-    @media (max-width: 768px) {
       body.messages-page { overflow: auto !important; }
-      .conv-sidebar { width: 100% !important; height: 220px !important; border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.08) !important; flex-shrink: 0 !important; }
-      .chat-window { height: calc(100vh - 276px) !important; min-height: 380px !important; }
+      .messages-layout { flex-direction: column !important; }
+      .conv-sidebar { width: 100% !important; height: 220px !important; border-right: none !important; border-bottom: 1px solid var(--border) !important; flex-shrink: 0 !important; }
+      .chat-window { height: calc(100vh - 284px) !important; min-height: 380px !important; }
       .msg-bubble { max-width: 85% !important; }
+      nav { padding: 0 16px !important; height: 56px !important; gap: 12px !important; }
+      nav a:not(.nav-logo):not(.nav-btn):not(.nav-avatar) { display: none !important; }
     }
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
-    .hamburger span { display: block; width: 22px; height: 2px; background: rgba(255,255,255,0.8); border-radius: 2px; transition: all 0.3s; }
-    .mobile-menu { display: none; position: fixed; top: 56px; left: 0; right: 0; background: rgba(15,32,39,0.97); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 16px; z-index: 99; flex-direction: column; gap: 4px; }
-    .mobile-menu a { padding: 12px 16px; border-radius: 10px; color: rgba(255,255,255,0.7) !important; text-decoration: none; font-size: 15px; font-weight: 500; display: block !important; }
-    .mobile-menu a:hover { background: rgba(255,255,255,0.07); color: #fff !important; }
-    .mobile-menu .menu-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 8px 0; }
-    @media (max-width: 768px) { .hamburger { display: flex !important; } }
+    .hamburger { display: none; }
   </style>
 
 </head>
@@ -284,7 +246,6 @@
       <div class="conv-header">
         <h3>Messages</h3>
         <div class="conv-search">
-          <span style="color:rgba(255,255,255,0.35)">🔍</span>
           <input type="text" placeholder="Search conversations..." id="searchConv" oninput="searchConversations()"/>
         </div>
       </div>
@@ -296,8 +257,7 @@
     <!-- CHAT WINDOW -->
     <div class="chat-window" id="chatWindow">
       <div class="empty-chat">
-        <div class="empty-icon">💬</div>
-        <div class="empty-title">Your Messages</div>
+        <div class="empty-title">Your messages</div>
         <div class="empty-sub">Select a conversation to start chatting,<br>or message a professional from their profile.</div>
       </div>
     </div>
@@ -312,13 +272,7 @@
     let conversations = []
     let pollInterval = null
 
-    const COLORS = [
-      'linear-gradient(135deg,#8ab4f8,#7b61ff)',
-      'linear-gradient(135deg,#00e682,#8ab4f8)',
-      'linear-gradient(135deg,#7b61ff,#ff6b6b)',
-      'linear-gradient(135deg,#ff6b6b,#ff8e53)',
-      'linear-gradient(135deg,#00d4ff,#7b61ff)',
-    ]
+    const COLORS = ['#1B5E45', '#2F6F91', '#8B5E34', '#6B5B95', '#4A7856']
 
     window.addEventListener('DOMContentLoaded', async () => {
       const token = localStorage.getItem('token')
@@ -330,10 +284,8 @@
       const initials = user.name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2)
       document.getElementById('navAvatar').textContent = initials
 
-      // Load professionals to build conversation list
       await loadConversations()
 
-      // Check if coming from profile page with ?to=userId
       const params = new URLSearchParams(window.location.search)
       const toId = params.get('to')
       if (toId) {
@@ -347,11 +299,10 @@
         const res = await fetch(`${API}/users`)
         const pros = await res.json()
         if (!Array.isArray(pros) || !pros.length) {
-          document.getElementById('convList').innerHTML = `<div class="conv-empty">No professionals to message yet.<br><a href="browse.html" style="color:#8ab4f8">Browse professionals →</a></div>`
+          document.getElementById('convList').innerHTML = `<div class="conv-empty">No professionals to message yet.<br><a href="browse.html" style="color:var(--accent)">Browse professionals →</a></div>`
           return
         }
 
-        // Build conversation list from professionals (excluding self)
         conversations = pros
           .filter(p => p.id !== currentUser.id)
           .map((p, i) => {
@@ -412,23 +363,21 @@
       currentConvId = conv.convId
       currentReceiverId = conv.userId
 
-      // Mark active in sidebar
       document.querySelectorAll('.conv-item').forEach(el => el.classList.remove('active'))
       const items = document.querySelectorAll('.conv-item')
       items.forEach(el => {
         if (el.querySelector('.conv-name')?.textContent === conv.name) el.classList.add('active')
       })
 
-      // Render chat window
       document.getElementById('chatWindow').innerHTML = `
         <div class="chat-header">
           <div class="chat-header-av" style="background:${conv.color}">${conv.initials}</div>
           <div class="chat-header-info">
             <div class="chat-header-name">${conv.name}</div>
-            <div class="chat-header-status">● Online</div>
+            <div class="chat-header-status">Online</div>
           </div>
           <div class="chat-header-actions">
-            <a href="profile.html?id=${conv.userId}" class="icon-btn" title="View Profile">👤</a>
+            <a href="profile.html?id=${conv.userId}" class="icon-btn" title="View profile">↗</a>
           </div>
         </div>
 
@@ -444,7 +393,7 @@
                 onkeydown="handleKey(event)"
                 oninput="autoResize(this)"></textarea>
             </div>
-            <button class="send-btn" id="sendBtn" onclick="sendMessage()">➤</button>
+            <button class="send-btn" id="sendBtn" onclick="sendMessage()">→</button>
           </div>
         </div>
       `
@@ -464,7 +413,7 @@
         if (!area) return
 
         if (!Array.isArray(msgs) || !msgs.length) {
-          area.innerHTML = `<div class="empty-chat" style="flex:none;padding:40px 0;"><div class="empty-icon">💬</div><div style="color:rgba(255,255,255,0.4);font-size:14px;">No messages yet. Say hello!</div></div>`
+          area.innerHTML = `<div class="empty-chat" style="flex:none;padding:40px 0;"><div style="color:var(--text-secondary);font-size:14px;">No messages yet. Say hello!</div></div>`
           return
         }
 
@@ -535,67 +484,6 @@
     function escapeHtml(text) {
       return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')
     }
-  </script>
-
-  <!-- MOBILE HAMBURGER MENU -->
-  <script>
-    (function() {
-      // Add hamburger button and mobile menu to nav
-      window.addEventListener('DOMContentLoaded', function() {
-        const nav = document.querySelector('nav');
-        if (!nav) return;
-
-        // Create hamburger
-        const hamburger = document.createElement('button');
-        hamburger.className = 'hamburger';
-        hamburger.setAttribute('aria-label', 'Menu');
-        hamburger.innerHTML = '<span></span><span></span><span></span>';
-        nav.appendChild(hamburger);
-
-        // Create mobile menu
-        const mobileMenu = document.createElement('div');
-        mobileMenu.className = 'mobile-menu';
-        mobileMenu.id = 'mobileMenu';
-
-        // Get nav links
-        const links = nav.querySelectorAll('a:not(.nav-logo)');
-        links.forEach(link => {
-          const clone = link.cloneNode(true);
-          mobileMenu.appendChild(clone);
-        });
-
-        // Add sign out if logged in
-        const user = JSON.parse(localStorage.getItem('user') || 'null');
-        if (user) {
-          const divider = document.createElement('div');
-          divider.className = 'menu-divider';
-          mobileMenu.appendChild(divider);
-          const signout = document.createElement('a');
-          signout.href = '#';
-          signout.textContent = '🚪 Sign Out';
-          signout.style.color = '#ff8080';
-          signout.addEventListener('click', function(e) {
-            e.preventDefault();
-            localStorage.clear();
-            window.location.href = 'login.html';
-          });
-          mobileMenu.appendChild(signout);
-        }
-
-        document.body.appendChild(mobileMenu);
-
-        hamburger.addEventListener('click', function() {
-          mobileMenu.classList.toggle('open');
-        });
-
-        // Close on outside click
-        document.addEventListener('click', function(e) {
-          if (!nav.contains(e.target)) {
-            mobileMenu.classList.remove('open');
-          }
-        });
-      });
-    })();
   </script>
 
 </body>
