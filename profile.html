@@ -5,39 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Profile — SkillConnect</title>
   <style>
+    :root {
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-sidebar: #f1f5f9;
+      --border: #e2e8f0;
+      --primary-blue: #2563eb;
+      --success-green: #059669;
+      --text-main: #1e293b;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
       min-height: 100vh;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
-      color: #ffffff;
+      background: var(--bg-main);
+      font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+      color: var(--text-main);
     }
 
-    /* NAV */
     nav {
       position: sticky; top: 0; z-index: 100;
       display: flex; align-items: center; gap: 24px;
       padding: 0 32px; height: 60px;
-      background: rgba(15,32,39,0.75);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      background: var(--primary-blue);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     }
     .nav-logo { font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; margin-right: auto; }
-    .nav-logo span { color: #8ab4f8; }
-    nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    .nav-logo span { color: var(--accent); }
+    nav a { color: var(--text-dim); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
     nav a:hover { color: #fff; }
     .nav-avatar {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: linear-gradient(135deg, #8ab4f8, #7b61ff);
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--accent);
       display: flex; align-items: center; justify-content: center;
       font-weight: 800; font-size: 13px; cursor: pointer; color: #fff;
     }
     .nav-btn { padding: 8px 18px; border-radius: 8px; font-weight: 600; font-size: 13px; text-decoration: none; transition: all 0.2s; }
-    .nav-btn-outline { border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); }
-    .nav-btn-outline:hover { border-color: #8ab4f8; color: #8ab4f8; }
-    .nav-btn-filled { background: #8ab4f8; color: #0f2027; font-weight: 700; }
-    .nav-btn-filled:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(138,180,248,0.4); }
+    .nav-btn-outline { border: 1px solid var(--border); color: var(--text-dim); }
+    .nav-btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .nav-btn-filled { background: var(--success-green); color: #fff; font-weight: 700; }
+    .nav-btn-filled:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(99, 102, 241, 0.3); }
 
     /* BANNER */
     .profile-banner {

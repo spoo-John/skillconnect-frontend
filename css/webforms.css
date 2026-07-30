@@ -1,36 +1,45 @@
+:root {
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --border: #e2e8f0;
+    --primary-blue: #2563eb;
+    --success-green: #059669;
+    --text-main: #1e293b;
+    --text-secondary: #64748b;
+    --text-muted: #94a3b8;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
 /* Page background */
 html {
     min-height: 100vh;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    background: var(--bg-main);
+    font-family: "Inter", "Segoe UI", system-ui, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* Glass container (wrap your content in a div with class="glass") */
+/* Solid container */
 .glass {
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: var(--bg-card);
     border-radius: 16px;
     padding: 40px 50px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
     text-align: center;
 }
 
 /* Heading */
 h1 {
-    color: #ffffff;
+    color: var(--text-main);
     font-size: 46px;
     margin-bottom: 30px;
-    text-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
 }
 
 /* Labels */
 label {
-    color: #8ab4f8;
+    color: var(--accent);
     font-size: 17px;
     font-weight: 600;
     display: block;
@@ -42,9 +51,9 @@ input {
     width: 280px;
     padding: 12px;
     font-size: 16px;
-    color: #ffffff;
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: var(--text-main);
+    background: var(--bg-main);
+    border: 1px solid var(--border);
     border-radius: 10px;
     outline: none;
     transition: 0.3s ease;
@@ -52,8 +61,8 @@ input {
 
 /* Input focus */
 input:focus {
-    border-color: #8ab4f8;
-    box-shadow: 0 0 10px rgba(138, 180, 248, 0.6);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
 
 /* Button */
@@ -62,18 +71,18 @@ button {
     padding: 14px 32px;
     font-size: 18px;
     color: #ffffff;
-    background: linear-gradient(135deg, #1f1f1f, #3a3a3a);
+    background: var(--accent);
     border: none;
     border-radius: 12px;
     cursor: pointer;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--shadow);
     transition: all 0.3s ease;
 }
 
 /* Button hover */
 button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
 }
 
 /* Button click */

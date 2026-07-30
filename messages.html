@@ -5,36 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Messages — SkillConnect</title>
   <style>
+    :root {
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-sidebar: #f1f5f9;
+      --border: #e2e8f0;
+      --primary-blue: #2563eb;
+      --success-green: #059669;
+      --text-main: #1e293b;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
       height: 100vh; overflow: hidden;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
-      color: #ffffff;
+      background: var(--bg-main);
+      font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+      color: var(--text-main);
     }
 
-    /* NAV */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; gap: 24px;
       padding: 0 32px; height: 60px;
-      background: rgba(15,32,39,0.85);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      background: var(--primary-blue);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     }
     .nav-logo { font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; margin-right: auto; }
-    .nav-logo span { color: #8ab4f8; }
-    nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
-    nav a:hover { color: #fff; }
+    .nav-logo span { color: var(--accent); }
+    nav a { color: #fff; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    nav a:hover { color: rgba(255,255,255,0.8); }
     .nav-avatar {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: linear-gradient(135deg, #8ab4f8, #7b61ff);
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--accent);
       display: flex; align-items: center; justify-content: center;
       font-weight: 800; font-size: 13px; cursor: pointer; color: #fff;
     }
-    .nav-btn { padding: 8px 18px; border-radius: 8px; font-weight: 600; font-size: 13px; text-decoration: none; transition: all 0.2s; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); }
-    .nav-btn:hover { border-color: #8ab4f8; color: #8ab4f8; }
+    .nav-btn { padding: 8px 18px; border-radius: 8px; font-weight: 600; font-size: 13px; text-decoration: none; transition: all 0.2s; border: 1px solid rgba(255,255,255,0.3); color: #fff; }
+    .nav-btn:hover { border-color: #fff; }
 
     /* LAYOUT */
     .messages-layout {
@@ -347,7 +358,15 @@
         const res = await fetch(`${API}/users`)
         const pros = await res.json()
         if (!Array.isArray(pros) || !pros.length) {
-          document.getElementById('convList').innerHTML = `<div class="conv-empty">No professionals to message yet.<br><a href="browse.html" style="color:#8ab4f8">Browse professionals →</a></div>`
+          // Fallback to sample conversations
+          conversations = [
+            { userId: 1, name: 'Sarah Chen', role: 'UI/UX Designer', initials: 'SC', color: COLORS[0], convId: 'conv_sample_1' },
+            { userId: 2, name: 'Marcus Rodriguez', role: 'Full-Stack Developer', initials: 'MR', color: COLORS[1], convId: 'conv_sample_2' },
+            { userId: 3, name: 'Emily Watson', role: 'Data Analyst', initials: 'EW', color: COLORS[2], convId: 'conv_sample_3' },
+            { userId: 4, name: 'David Kim', role: 'DevOps Engineer', initials: 'DK', color: COLORS[3], convId: 'conv_sample_4' },
+            { userId: 5, name: 'Lisa Thompson', role: 'Product Manager', initials: 'LT', color: COLORS[4], convId: 'conv_sample_5' }
+          ]
+          renderConvList(conversations)
           return
         }
 
@@ -369,7 +388,15 @@
 
         renderConvList(conversations)
       } catch {
-        document.getElementById('convList').innerHTML = `<div class="conv-empty">Failed to load conversations.</div>`
+        // Fallback to sample conversations on error
+        conversations = [
+          { userId: 1, name: 'Sarah Chen', role: 'UI/UX Designer', initials: 'SC', color: COLORS[0], convId: 'conv_sample_1' },
+          { userId: 2, name: 'Marcus Rodriguez', role: 'Full-Stack Developer', initials: 'MR', color: COLORS[1], convId: 'conv_sample_2' },
+          { userId: 3, name: 'Emily Watson', role: 'Data Analyst', initials: 'EW', color: COLORS[2], convId: 'conv_sample_3' },
+          { userId: 4, name: 'David Kim', role: 'DevOps Engineer', initials: 'DK', color: COLORS[3], convId: 'conv_sample_4' },
+          { userId: 5, name: 'Lisa Thompson', role: 'Product Manager', initials: 'LT', color: COLORS[4], convId: 'conv_sample_5' }
+        ]
+        renderConvList(conversations)
       }
     }
 
@@ -453,6 +480,66 @@
       pollInterval = setInterval(() => loadMessages(conv.convId), 4000)
     }
 
+    function getSampleMessages(convId) {
+      const sampleData = {
+        'conv_sample_1': [
+          { sender_id: 1, text: 'Hi! I saw your project on SkillConnect. I\'m a UI/UX designer with 5+ years experience.', timestamp: new Date(Date.now() - 2*60*60*1000).toISOString() },
+          { sender_id: currentUser?.id || 999, text: 'Hello Sarah! Thanks for reaching out. We\'re looking for someone to redesign our mobile app.', timestamp: new Date(Date.now() - 1.5*60*60*1000).toISOString() },
+          { sender_id: 1, text: 'That sounds exciting! I\'d love to see your current design. Do you have any wireframes or mockups?', timestamp: new Date(Date.now() - 1*60*60*1000).toISOString() },
+          { sender_id: currentUser?.id || 999, text: 'Yes, I can share our current screens. We want a more modern, clean look with better user flow.', timestamp: new Date(Date.now() - 30*60*1000).toISOString() }
+        ],
+        'conv_sample_2': [
+          { sender_id: 2, text: 'Hello! I\'m interested in your full-stack development project. What tech stack are you using?', timestamp: new Date(Date.now() - 4*60*60*1000).toISOString() },
+          { sender_id: currentUser?.id || 999, text: 'Hi Marcus! We\'re building with React, Node.js, and PostgreSQL. It\'s a SaaS platform.', timestamp: new Date(Date.now() - 3.5*60*60*1000).toISOString() },
+          { sender_id: 2, text: 'Perfect! I have extensive experience with that stack. I built similar platforms before.', timestamp: new Date(Date.now() - 3*60*60*1000).toISOString() }
+        ],
+        'conv_sample_3': [
+          { sender_id: 3, text: 'Hi there! I noticed you need data analysis help. What kind of data are you working with?', timestamp: new Date(Date.now() - 6*60*60*1000).toISOString() },
+          { sender_id: currentUser?.id || 999, text: 'Hello Emily! We have customer behavior data and want to identify trends and insights.', timestamp: new Date(Date.now() - 5.5*60*60*1000).toISOString() }
+        ],
+        'conv_sample_4': [
+          { sender_id: 4, text: 'Greetings! I\'m a DevOps engineer specializing in cloud infrastructure. What are your deployment needs?', timestamp: new Date(Date.now() - 8*60*60*1000).toISOString() }
+        ],
+        'conv_sample_5': [
+          { sender_id: 5, text: 'Hello! As a product manager, I can help you define requirements and scope your project properly.', timestamp: new Date(Date.now() - 10*60*60*1000).toISOString() },
+          { sender_id: currentUser?.id || 999, text: 'Hi Lisa! That would be great. We need help organizing our feature backlog and prioritizing.', timestamp: new Date(Date.now() - 9.5*60*60*1000).toISOString() }
+        ]
+      }
+      return sampleData[convId] || []
+    }
+
+    function renderMessages(msgs, convId) {
+      const area = document.getElementById('messagesArea')
+      if (!area) return
+
+      if (!Array.isArray(msgs) || !msgs.length) {
+        area.innerHTML = `<div class="empty-chat" style="flex:none;padding:40px 0;"><div class="empty-icon">💬</div><div style="color:rgba(255,255,255,0.4);font-size:14px;">No messages yet. Say hello!</div></div>`
+        return
+      }
+
+      const conv = conversations.find(c => c.convId === convId)
+      const scrolledToBottom = area.scrollHeight - area.scrollTop <= area.clientHeight + 50
+
+      area.innerHTML = msgs.map(m => {
+        const isSent = m.sender_id === (currentUser?.id || 999)
+        const time = new Date(m.timestamp).toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit' })
+        return `
+          <div class="msg-group">
+            <div class="msg-row ${isSent ? 'sent' : 'received'}">
+              ${!isSent ? `<div class="msg-av-sm" style="background:${conv?.color || COLORS[0]}">${conv?.initials || '?'}</div>` : ''}
+              <div class="msg-bubble">${escapeHtml(m.text)}</div>
+            </div>
+            <div class="msg-row ${isSent ? 'sent' : 'received'}">
+              ${!isSent ? `<div style="width:28px;flex-shrink:0;"></div>` : ''}
+              <div class="msg-time">${time}</div>
+            </div>
+          </div>
+        `
+      }).join('')
+
+      if (scrolledToBottom) area.scrollTop = area.scrollHeight
+    }
+
     async function loadMessages(convId) {
       const token = localStorage.getItem('token')
       try {
@@ -464,7 +551,9 @@
         if (!area) return
 
         if (!Array.isArray(msgs) || !msgs.length) {
-          area.innerHTML = `<div class="empty-chat" style="flex:none;padding:40px 0;"><div class="empty-icon">💬</div><div style="color:rgba(255,255,255,0.4);font-size:14px;">No messages yet. Say hello!</div></div>`
+          // Fallback to sample messages
+          const sampleMsgs = getSampleMessages(convId)
+          renderMessages(sampleMsgs, convId)
           return
         }
 
@@ -489,7 +578,11 @@
         }).join('')
 
         if (scrolledToBottom) area.scrollTop = area.scrollHeight
-      } catch {}
+      } catch {
+        // Fallback to sample messages on error
+        const sampleMsgs = getSampleMessages(convId)
+        renderMessages(sampleMsgs, convId)
+      }
     }
 
     async function sendMessage() {

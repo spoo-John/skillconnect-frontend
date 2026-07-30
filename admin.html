@@ -5,39 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin — SkillConnect</title>
   <style>
+    :root {
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-sidebar: #f1f5f9;
+      --border: #e2e8f0;
+      --primary-blue: #2563eb;
+      --success-green: #059669;
+      --text-main: #1e293b;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
       min-height: 100vh;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
-      color: #ffffff;
+      background: var(--bg-main);
+      font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+      color: var(--text-main);
     }
 
-    /* NAV */
     nav {
       position: sticky; top: 0; z-index: 100;
       display: flex; align-items: center; gap: 24px;
       padding: 0 32px; height: 60px;
-      background: rgba(15,32,39,0.85);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      background: var(--primary-blue);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     }
     .nav-logo { font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; margin-right: auto; }
-    .nav-logo span { color: #8ab4f8; }
+    .nav-logo span { color: var(--accent); }
     .admin-badge {
-      background: rgba(255,80,80,0.15); border: 1px solid rgba(255,80,80,0.4);
-      color: #ff8080; padding: 4px 12px; border-radius: 50px;
+      background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #f87171; padding: 4px 12px; border-radius: 50px;
       font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
     }
     .nav-avatar {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--success-green);
       display: flex; align-items: center; justify-content: center;
       font-weight: 800; font-size: 13px; color: #fff;
     }
-    nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
-    nav a:hover { color: #fff; }
+    nav a { color: #fff; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    nav a:hover { color: rgba(255,255,255,0.8); }
 
     /* LAYOUT */
     .admin-layout { display: flex; min-height: calc(100vh - 60px); }
@@ -89,27 +100,27 @@
 
     /* GLASS CARD */
     .glass-card {
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.15);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
       border-radius: 16px; padding: 24px;
       margin-bottom: 24px;
+      box-shadow: var(--shadow);
     }
 
     /* STATS GRID */
     .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 28px; }
     .stat-card {
       padding: 20px; border-radius: 16px;
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.15);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
       transition: transform 0.2s;
+      box-shadow: var(--shadow);
     }
     .stat-card:hover { transform: translateY(-2px); }
     .stat-icon { font-size: 24px; margin-bottom: 10px; }
     .stat-val { font-size: 32px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
-    .stat-label { font-size: 11px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.5px; }
-    .stat-sub { font-size: 12px; color: #8ab4f8; margin-top: 6px; font-weight: 600; }
+    .stat-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-sub { font-size: 12px; color: var(--success-green); margin-top: 6px; font-weight: 600; }
 
     /* SECTION HEADER */
     .section-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
@@ -119,35 +130,34 @@
     .data-table { width: 100%; border-collapse: collapse; }
     .data-table th {
       font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
-      color: rgba(255,255,255,0.4); padding: 10px 14px; text-align: left;
-      border-bottom: 1px solid rgba(255,255,255,0.08); font-weight: 600;
+      color: var(--text-dim); padding: 10px 14px; text-align: left;
+      border-bottom: 1px solid var(--border); font-weight: 600;
     }
     .data-table td {
       padding: 12px 14px; font-size: 13px;
-      border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle;
+      border-bottom: 1px solid var(--border); vertical-align: middle;
     }
-    .data-table tr:last-child td { border-bottom: none; }
-    .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .data-table tr:hover td { background: rgba(99, 102, 241, 0.05); }
 
     /* PILLS */
     .pill { padding: 3px 10px; border-radius: 50px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
-    .pill-green { background: rgba(0,230,130,0.12); color: #00e682; }
-    .pill-yellow { background: rgba(255,200,64,0.12); color: #ffc940; }
-    .pill-red { background: rgba(255,80,80,0.12); color: #ff8080; }
-    .pill-blue { background: rgba(138,180,248,0.12); color: #8ab4f8; }
-    .pill-purple { background: rgba(123,97,255,0.12); color: #a78bfa; }
+    .pill-green { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; }
+    .pill-yellow { background: rgba(251, 146, 60, 0.15); color: #fb923c; }
+    .pill-red { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+    .pill-blue { background: rgba(99, 102, 241, 0.15); color: #a5b4fc; }
+    .pill-purple { background: rgba(168, 85, 247, 0.15); color: #d8b4fe; }
 
     /* ACTION BUTTONS */
     .action-btn {
       padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;
-      cursor: pointer; border: none; font-family: "Segoe UI", sans-serif;
+      cursor: pointer; border: none; font-family: "Inter", "Segoe UI", system-ui, sans-serif;
       transition: all 0.2s; margin-right: 4px;
     }
-    .btn-approve { background: rgba(0,230,130,0.15); color: #00e682; border: 1px solid rgba(0,230,130,0.3); }
-    .btn-approve:hover { background: rgba(0,230,130,0.25); }
-    .btn-reject { background: rgba(255,200,64,0.15); color: #ffc940; border: 1px solid rgba(255,200,64,0.3); }
-    .btn-reject:hover { background: rgba(255,200,64,0.25); }
-    .btn-delete { background: rgba(255,80,80,0.15); color: #ff8080; border: 1px solid rgba(255,80,80,0.3); }
+    .btn-approve { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .btn-approve:hover { background: rgba(16, 185, 129, 0.25); }
+    .btn-reject { background: rgba(251, 146, 60, 0.15); color: #fb923c; border: 1px solid rgba(251, 146, 60, 0.3); }
+    .btn-reject:hover { background: rgba(251, 146, 60, 0.25); }
+    .btn-delete { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
     .btn-delete:hover { background: rgba(255,80,80,0.25); }
     .btn-close { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.15); }
     .btn-close:hover { background: rgba(255,255,255,0.12); }
@@ -508,8 +518,30 @@
 
   <script>
     const API = 'https://skillconnect-backend-production.up.railway.app/api'
-    let allUsers = [], allPosts = [], flaggedPosts = []
     let modalAction = null
+
+    // ── SAMPLE DATA ───────────────────────────────────────────────
+    function getSampleUsers() {
+      return [
+        { id: 1, name: 'John Admin', email: 'admin@skillconnect.com', role: 'client', approved: true, is_admin: true, created_at: '2024-01-15T10:00:00Z' },
+        { id: 2, name: 'Sarah Chen', email: 'sarah.chen@email.com', role: 'professional', approved: true, is_admin: false, skills: 'UI/UX Design, Figma, Adobe XD', created_at: '2024-01-20T14:30:00Z' },
+        { id: 3, name: 'Marcus Rodriguez', email: 'marcus.dev@email.com', role: 'professional', approved: true, is_admin: false, skills: 'React, Node.js, PostgreSQL', created_at: '2024-01-22T09:15:00Z' },
+        { id: 4, name: 'Emily Watson', email: 'emily.data@email.com', role: 'professional', approved: false, is_admin: false, skills: 'Python, Data Analysis, Machine Learning', created_at: '2024-01-25T16:45:00Z' },
+        { id: 5, name: 'David Kim', email: 'david.ops@email.com', role: 'professional', approved: true, is_admin: false, skills: 'AWS, Docker, Kubernetes', created_at: '2024-01-28T11:20:00Z' },
+        { id: 6, name: 'Lisa Thompson', email: 'lisa.pm@email.com', role: 'professional', approved: true, is_admin: false, skills: 'Product Management, Agile, Scrum', created_at: '2024-02-01T13:10:00Z' },
+        { id: 7, name: 'Alex Johnson', email: 'alex.client@email.com', role: 'client', approved: true, is_admin: false, created_at: '2024-02-03T08:30:00Z' },
+        { id: 8, name: 'Maria Garcia', email: 'maria.client@email.com', role: 'client', approved: true, is_admin: false, created_at: '2024-02-05T15:20:00Z' }
+      ]
+    }
+
+    function getSamplePosts() {
+      return [
+        { id: 1, title: 'E-commerce Website Redesign', description: 'Need a complete redesign of our online store with modern UI/UX', user_id: 7, skill: 'UI/UX Design', budget: '$3000-5000', status: 'open', created_at: '2024-02-10T10:00:00Z' },
+        { id: 2, name: 'React Dashboard Development', description: 'Build an admin dashboard with charts and data visualization', user_id: 8, skill: 'React Development', budget: '$2000-4000', status: 'open', created_at: '2024-02-08T14:30:00Z' },
+        { id: 3, name: 'Data Analysis Project', description: 'Analyze customer behavior data and create insights report', user_id: 7, skill: 'Data Analysis', budget: '$1500-2500', status: 'closed', created_at: '2024-02-05T09:15:00Z' },
+        { id: 4, name: 'DevOps Infrastructure Setup', description: 'Set up CI/CD pipeline and cloud infrastructure for our startup', user_id: 8, skill: 'DevOps', budget: '$2500-4000', status: 'open', created_at: '2024-02-12T16:45:00Z' }
+      ]
+    }
 
     // ── INIT ──────────────────────────────────────────────────────
     window.addEventListener('DOMContentLoaded', async () => {
@@ -549,7 +581,10 @@
         const postsData = await postsRes.json()
         allPosts = Array.isArray(postsData) ? postsData : []
       } catch (e) {
-        showToast('Failed to load data', 'error')
+        // Fallback to sample data
+        allUsers = getSampleUsers()
+        allPosts = getSamplePosts()
+        showToast('Using sample data - API unavailable', 'info')
       }
 
       renderAnalytics()

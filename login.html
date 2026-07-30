@@ -5,10 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login</title>
   <style>
+    :root {
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --border: #e2e8f0;
+      --primary-blue: #2563eb;
+      --success-green: #059669;
+      --text-main: #1e293b;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+    }
+
     html {
       min-height: 100vh;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+      background: var(--bg-main);
+      font-family: "Inter", "Segoe UI", system-ui, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -20,16 +34,15 @@
       align-items: center;
       min-height: 100vh;
       margin: 0;
+      color: var(--text-main);
     }
 
     .glass {
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: var(--bg-card);
       border-radius: 16px;
       padding: 40px 50px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
       text-align: center;
       width: 360px;
       animation: fadeInUp 0.6s ease both;
@@ -41,16 +54,15 @@
     }
 
     h1 {
-      color: #ffffff;
+      color: var(--text-main);
       font-size: 46px;
       margin-bottom: 30px;
       margin-top: 0;
-      text-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
       letter-spacing: -1px;
     }
 
     label {
-      color: #8ab4f8;
+      color: var(--accent);
       font-size: 17px;
       font-weight: 600;
       display: block;
@@ -62,9 +74,9 @@
       width: 280px;
       padding: 12px;
       font-size: 16px;
-      color: #ffffff;
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: var(--text-main);
+      background: var(--bg-main);
+      border: 1px solid var(--border);
       border-radius: 10px;
       outline: none;
       transition: 0.3s ease;
@@ -72,12 +84,12 @@
     }
 
     input::placeholder {
-      color: rgba(255, 255, 255, 0.3);
+      color: var(--text-dim);
     }
 
     input:focus {
-      border-color: #8ab4f8;
-      box-shadow: 0 0 10px rgba(138, 180, 248, 0.6);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
     }
 
     button {
@@ -85,21 +97,21 @@
       padding: 14px 32px;
       font-size: 18px;
       color: #ffffff;
-      background: linear-gradient(135deg, #1f1f1f, #3a3a3a);
+      background: var(--accent);
       border: none;
       border-radius: 12px;
       cursor: pointer;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      box-shadow: var(--shadow);
       transition: all 0.3s ease;
       width: 100%;
-      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+      font-family: "Inter", "Segoe UI", system-ui, sans-serif;
       font-weight: 600;
       letter-spacing: 0.5px;
     }
 
     button:hover {
       transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
     }
 
     button:active {
@@ -114,12 +126,12 @@
 
     .divider {
       margin: 20px 0 0;
-      color: rgba(255, 255, 255, 0.35);
+      color: var(--text-dim);
       font-size: 13px;
     }
 
     .divider a {
-      color: #8ab4f8;
+      color: var(--accent);
       text-decoration: none;
       font-weight: 600;
       transition: opacity 0.2s;
@@ -144,16 +156,16 @@
     }
 
     .msg.error {
-      background: rgba(255, 80, 80, 0.2);
-      border: 1px solid rgba(255, 80, 80, 0.4);
-      color: #ff8080;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #f87171;
       display: block;
     }
 
     .msg.success {
-      background: rgba(80, 255, 150, 0.2);
-      border: 1px solid rgba(80, 255, 150, 0.4);
-      color: #80ffaa;
+      background: rgba(52, 211, 153, 0.15);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      color: #6ee7b7;
       display: block;
     }
   </style>

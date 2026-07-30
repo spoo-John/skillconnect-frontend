@@ -5,29 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Register — SkillConnect</title>
   <style>
+    :root {
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --border: #e2e8f0;
+      --primary-blue: #2563eb;
+      --success-green: #059669;
+      --text-main: #1e293b;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
       min-height: 100vh;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
-      color: #ffffff;
+      background: var(--bg-main);
+      font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+      color: var(--text-main);
     }
 
     nav {
       position: sticky; top: 0; z-index: 100;
       display: flex; align-items: center; gap: 24px;
       padding: 0 32px; height: 60px;
-      background: rgba(15,32,39,0.75);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      background: var(--primary-blue);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     .nav-logo { font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; margin-right: auto; }
-    .nav-logo span { color: #8ab4f8; }
-    nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    .nav-logo span { color: var(--accent); }
+    nav a { color: var(--text-dim); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
     nav a:hover { color: #fff; }
-    .nav-btn { padding: 8px 18px; border-radius: 8px; font-weight: 600; font-size: 13px; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); }
-    .nav-btn:hover { border-color: #8ab4f8; color: #8ab4f8; }
+    .nav-btn { padding: 8px 18px; border-radius: 8px; font-weight: 600; font-size: 13px; border: 1px solid var(--border); color: var(--text-dim); transition: all 0.2s; }
+    .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
 
     .register-page {
       min-height: calc(100vh - 60px);
@@ -37,58 +50,56 @@
 
     .register-box {
       width: 100%; max-width: 520px;
-      background: rgba(255,255,255,0.1);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(255,255,255,0.2);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
       border-radius: 20px; padding: 48px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+      box-shadow: var(--shadow);
       animation: fadeInUp 0.6s ease both;
     }
 
     @keyframes fadeInUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
 
     .reg-title { font-size: 30px; font-weight: 800; margin-bottom: 6px; }
-    .reg-sub { color: rgba(255,255,255,0.5); font-size: 14px; margin-bottom: 32px; }
+    .reg-sub { color: var(--text-dim); font-size: 14px; margin-bottom: 32px; }
 
     .role-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
     .role-card {
       padding: 18px 14px; border-radius: 12px;
-      border: 2px solid rgba(255,255,255,0.15);
+      border: 2px solid var(--border);
       cursor: pointer; transition: all 0.25s; text-align: center;
-      background: rgba(255,255,255,0.04);
+      background: transparent;
     }
-    .role-card:hover { border-color: rgba(138,180,248,0.4); }
-    .role-card.active { border-color: #8ab4f8; background: rgba(138,180,248,0.1); }
+    .role-card:hover { border-color: var(--accent); }
+    .role-card.active { border-color: var(--accent); background: rgba(99, 102, 241, 0.15); }
     .role-card-icon { font-size: 28px; margin-bottom: 8px; }
     .role-card-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
-    .role-card-desc { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.4; }
+    .role-card-desc { font-size: 12px; color: var(--text-dim); line-height: 1.4; }
 
     .section-label {
       font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px;
-      color: rgba(255,255,255,0.4); font-weight: 700;
+      color: var(--text-dim); font-weight: 700;
       margin: 24px 0 16px;
       display: flex; align-items: center; gap: 10px;
     }
-    .section-label::after { content:''; flex:1; height:1px; background:rgba(255,255,255,0.1); }
+    .section-label::after { content:''; flex:1; height:1px; background:var(--border); }
 
     .form-group { margin-bottom: 18px; }
     label {
       display: block; font-size: 13px; font-weight: 600;
-      color: #8ab4f8; margin-bottom: 7px;
+      color: var(--accent); margin-bottom: 7px;
       text-transform: uppercase; letter-spacing: 0.8px;
     }
     input, textarea {
       width: 100%; padding: 12px 14px;
-      background: rgba(0,0,0,0.35);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 10px; color: #fff;
-      font-size: 14px; font-family: "Segoe UI", sans-serif;
+      background: var(--bg-main);
+      border: 1px solid var(--border);
+      border-radius: 10px; color: var(--text-main);
+      font-size: 14px; font-family: "Inter", "Segoe UI", system-ui, sans-serif;
       outline: none; transition: border-color 0.25s, box-shadow 0.25s;
       resize: vertical;
     }
-    input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.3); }
-    input:focus, textarea:focus { border-color: #8ab4f8; box-shadow: 0 0 0 3px rgba(138,180,248,0.12); }
+    input::placeholder, textarea::placeholder { color: var(--text-dim); }
+    input:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); }
 
     .pw-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
@@ -97,45 +108,45 @@
 
     .skills-multi {
       display: flex; flex-wrap: wrap; gap: 8px; padding: 12px;
-      background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15);
+      background: var(--bg-main); border: 1px solid var(--border);
       border-radius: 10px; min-height: 52px; cursor: pointer; transition: border-color 0.25s;
     }
-    .skills-multi:focus-within { border-color: #8ab4f8; }
+    .skills-multi:focus-within { border-color: var(--accent); }
     .skill-chip {
       display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px;
-      border-radius: 50px; background: rgba(138,180,248,0.12); color: #8ab4f8;
+      border-radius: 50px; background: rgba(99, 102, 241, 0.15); color: #a5b4fc;
       font-size: 13px; font-weight: 600; cursor: pointer;
     }
-    .skill-chip:hover { background: rgba(138,180,248,0.2); }
+    .skill-chip:hover { background: rgba(99, 102, 241, 0.25); }
     .skills-dropdown {
       display: none; flex-wrap: wrap; gap: 8px; padding: 12px;
-      background: rgba(10,20,30,0.95); border: 1px solid rgba(255,255,255,0.15);
+      background: var(--bg-sidebar); border: 1px solid var(--border);
       border-top: none; border-radius: 0 0 10px 10px;
     }
     .skills-dropdown.open { display: flex; }
     .skill-option {
       padding: 6px 14px; border-radius: 50px;
-      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
-      color: rgba(255,255,255,0.55); font-size: 13px; font-weight: 600;
+      background: transparent; border: 1px solid var(--border);
+      color: var(--text-dim); font-size: 13px; font-weight: 600;
       cursor: pointer; transition: all 0.2s;
     }
-    .skill-option:hover, .skill-option.selected { background: rgba(138,180,248,0.12); color: #8ab4f8; border-color: rgba(138,180,248,0.3); }
+    .skill-option:hover, .skill-option.selected { background: rgba(99, 102, 241, 0.15); color: #a5b4fc; border-color: var(--accent); }
 
     .submit-btn {
-      width: 100%; padding: 15px; background: #8ab4f8; color: #0f2027;
+      width: 100%; padding: 15px; background: var(--accent); color: #fff;
       font-weight: 800; font-size: 15px; border: none; border-radius: 50px;
       cursor: pointer; margin-top: 8px; transition: all 0.25s;
-      font-family: "Segoe UI", sans-serif;
+      font-family: "Inter", "Segoe UI", system-ui, sans-serif;
     }
-    .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(138,180,248,0.4); }
+    .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3); }
     .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
 
-    .login-link { text-align: center; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.45); }
-    .login-link a { color: #8ab4f8; text-decoration: none; font-weight: 600; }
+    .login-link { text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-dim); }
+    .login-link a { color: var(--accent); text-decoration: none; font-weight: 600; }
 
     .msg { margin-top: 14px; padding: 10px 14px; border-radius: 8px; font-size: 14px; display: none; }
-    .msg.error { background: rgba(255,80,80,0.15); border: 1px solid rgba(255,80,80,0.4); color: #ff8080; display: block; }
-    .msg.success { background: rgba(80,255,150,0.15); border: 1px solid rgba(80,255,150,0.4); color: #80ffaa; display: block; }
+    .msg.error { background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; display: block; }
+    .msg.success { background: rgba(52, 211, 153, 0.15); border: 1px solid rgba(52, 211, 153, 0.3); color: #6ee7b7; display: block; }
   </style>
 
   <!-- MOBILE RESPONSIVE STYLES -->

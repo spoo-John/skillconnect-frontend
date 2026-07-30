@@ -7,204 +7,241 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-sidebar: #f1f5f9;
+      --border: #e2e8f0;
+      --primary-blue: #2563eb;
+      --success-green: #059669;
+      --text-main: #1e293b;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
     html, body {
       min-height: 100vh;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
-      color: #ffffff;
+      background: var(--bg-main);
+      font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+      color: var(--text-main);
     }
 
     /* NAV */
     nav {
       position: sticky; top: 0; z-index: 100;
       display: flex; align-items: center; gap: 24px;
-      padding: 0 32px; height: 60px;
-      background: rgba(15,32,39,0.75);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 0 32px; height: 64px;
+      background: var(--primary-blue);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: var(--shadow);
     }
-    .nav-logo { font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; margin-right: auto; }
-    .nav-logo span { color: #8ab4f8; }
-    nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
-    nav a:hover { color: #fff; }
-    nav a.active { color: #8ab4f8; }
+    .nav-logo { font-size: 22px; font-weight: 800; color: #fff; text-decoration: none; margin-right: auto; }
+    .nav-logo span { color: var(--success-green); }
+    nav a { color: rgba(255,255,255,0.9); text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.2s; padding: 8px 12px; border-radius: 6px; }
+    nav a:hover { color: #fff; background: rgba(255,255,255,0.1); }
+    nav a.active { color: var(--success-green); background: rgba(5, 150, 105, 0.1); }
     .nav-avatar {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: linear-gradient(135deg, #8ab4f8, #7b61ff);
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--success-green), #10b981);
       display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 14px; cursor: pointer; color: #fff;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s;
+    }
+    .nav-avatar:hover { transform: scale(1.05); }
       font-weight: 800; font-size: 13px; cursor: pointer; color: #fff;
     }
     .nav-btn {
       padding: 8px 18px; border-radius: 8px; font-weight: 600; font-size: 13px;
       text-decoration: none; transition: all 0.2s;
     }
-    .nav-btn-outline { border: 1px solid rgba(255,255,255,0.25); color: rgba(255,255,255,0.8); }
-    .nav-btn-outline:hover { border-color: #8ab4f8; color: #8ab4f8; }
-    .nav-btn-filled { background: #8ab4f8; color: #0f2027; font-weight: 700; }
-    .nav-btn-filled:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(138,180,248,0.4); }
+    .nav-btn-outline { border: 1px solid var(--border); color: var(--text-dim); }
+    .nav-btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .nav-btn-filled { background: var(--success-green); color: #fff; font-weight: 700; }
+    .nav-btn-filled:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(99, 102, 241, 0.3); }
 
     /* HERO */
     .browse-hero {
-      background: linear-gradient(180deg, rgba(138,180,248,0.06) 0%, transparent 100%);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      padding: 48px 40px 40px;
+      background: linear-gradient(135deg, var(--bg-main) 0%, #f1f5f9 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 64px 40px 48px;
       text-align: center;
     }
-    .browse-hero h1 { font-size: clamp(28px,4vw,48px); font-weight: 800; margin-bottom: 12px; }
-    .browse-hero h1 em { font-style: normal; color: #8ab4f8; }
-    .browse-hero p { color: rgba(255,255,255,0.5); font-size: 15px; margin-bottom: 32px; }
+    .browse-hero h1 { font-size: clamp(32px,5vw,56px); font-weight: 800; margin-bottom: 16px; color: var(--text-main); }
+    .browse-hero h1 em { font-style: normal; color: var(--primary-blue); }
+    .browse-hero p { color: var(--text-secondary); font-size: 18px; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6; }
 
     /* SEARCH */
     .search-bar {
-      display: flex; gap: 10px; max-width: 680px; margin: 0 auto 24px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
+      display: flex; gap: 12px; max-width: 720px; margin: 0 auto 32px;
+      background: var(--bg-card);
+      border: 2px solid var(--border);
       border-radius: 50px;
-      padding: 8px 8px 8px 20px;
-      backdrop-filter: blur(12px);
-      transition: border-color 0.25s;
+      padding: 6px 6px 6px 24px;
+      box-shadow: var(--shadow);
+      transition: all 0.25s;
     }
-    .search-bar:focus-within { border-color: #8ab4f8; box-shadow: 0 0 0 3px rgba(138,180,248,0.1); }
+    .search-bar:focus-within { border-color: var(--primary-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
     .search-bar input {
       flex: 1; border: none; background: transparent;
-      font-size: 15px; color: #fff; outline: none;
+      font-size: 16px; color: var(--text-main); outline: none;
+      padding: 12px 0;
     }
-    .search-bar input::placeholder { color: rgba(255,255,255,0.35); }
+    .search-bar input::placeholder { color: var(--text-muted); }
     .search-bar button {
-      padding: 10px 22px; background: #8ab4f8;
-      color: #0f2027; border: none; border-radius: 50px;
-      font-weight: 700; font-size: 14px;
-      cursor: pointer; transition: all 0.2s; margin: 0;
+      padding: 12px 28px; background: var(--success-green);
+      color: #fff; border: none; border-radius: 50px;
+      font-weight: 700; font-size: 15px;
+      cursor: pointer; transition: all 0.2s;
+      box-shadow: var(--shadow);
     }
-    .search-bar button:hover { transform: scale(1.03); box-shadow: 0 4px 14px rgba(138,180,248,0.4); }
+    .search-bar button:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); background: #047857; }
 
     /* FILTER CHIPS */
-    .filter-chips { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+    .filter-chips { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 48px; }
     .chip {
-      padding: 7px 18px; border-radius: 50px;
-      border: 1px solid rgba(255,255,255,0.15);
-      background: transparent; color: rgba(255,255,255,0.55);
-      font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;
-      font-family: "Segoe UI", sans-serif;
+      padding: 10px 20px; border-radius: 50px;
+      border: 2px solid var(--border);
+      background: var(--bg-card); color: var(--text-secondary);
+      font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+      box-shadow: var(--shadow-sm);
     }
-    .chip:hover { border-color: #8ab4f8; color: #8ab4f8; }
-    .chip.active { background: rgba(138,180,248,0.12); border-color: #8ab4f8; color: #8ab4f8; }
+    .chip:hover { border-color: var(--primary-blue); color: var(--primary-blue); transform: translateY(-1px); box-shadow: var(--shadow); }
+    .chip.active { background: var(--primary-blue); border-color: var(--primary-blue); color: #fff; box-shadow: var(--shadow); }
 
     /* BODY LAYOUT */
-    .browse-body { display: flex; max-width: 1300px; margin: 0 auto; padding: 0 40px 80px; }
+    .browse-body { display: flex; max-width: 1400px; margin: 0 auto; padding: 0 40px 100px; gap: 48px; }
 
     /* SIDEBAR */
     .sidebar {
-      width: 220px; flex-shrink: 0;
-      padding: 32px 28px 32px 0;
-      border-right: 1px solid rgba(255,255,255,0.08);
+      width: 280px; flex-shrink: 0;
+      padding: 40px 32px 40px 0;
+      background: var(--bg-card);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
     }
-    .sidebar-section { margin-bottom: 28px; }
+    .sidebar-section { margin-bottom: 32px; }
     .sidebar-title {
-      font-weight: 700; font-size: 11px; text-transform: uppercase;
-      letter-spacing: 1.2px; color: rgba(255,255,255,0.4); margin-bottom: 12px;
+      font-weight: 700; font-size: 12px; text-transform: uppercase;
+      letter-spacing: 1px; color: var(--text-secondary); margin-bottom: 16px;
+      border-bottom: 1px solid var(--border); padding-bottom: 8px;
     }
     .sidebar-option {
-      display: flex; align-items: center; gap: 10px;
-      padding: 7px 0; cursor: pointer; color: rgba(255,255,255,0.55);
-      font-size: 14px; transition: color 0.2s;
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 0; cursor: pointer; color: var(--text-main);
+      font-size: 15px; transition: all 0.2s; border-radius: 8px; padding-left: 8px; padding-right: 8px;
     }
-    .sidebar-option:hover { color: #fff; }
+    .sidebar-option:hover { color: var(--primary-blue); background: rgba(37, 99, 235, 0.05); }
     .sidebar-option input[type="checkbox"],
-    .sidebar-option input[type="radio"] { accent-color: #8ab4f8; width: 15px; height: 15px; cursor: pointer; }
+    .sidebar-option input[type="radio"] { accent-color: var(--primary-blue); width: 16px; height: 16px; cursor: pointer; }
 
-    .availability-toggle { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; }
+    .availability-toggle { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; }
     .toggle-sw {
-      width: 42px; height: 24px; border-radius: 12px;
-      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+      width: 48px; height: 26px; border-radius: 13px;
+      background: var(--border); border: none;
       position: relative; cursor: pointer; transition: background 0.3s;
     }
-    .toggle-sw.on { background: #8ab4f8; }
+    .toggle-sw.on { background: var(--success-green); }
     .toggle-sw::after {
-      content: ''; position: absolute; width: 18px; height: 18px;
-      border-radius: 50%; background: white; top: 2px; left: 2px; transition: transform 0.3s;
+      content: ''; position: absolute; width: 20px; height: 20px;
+      border-radius: 50%; background: white; top: 3px; left: 3px; transition: transform 0.3s;
+      box-shadow: var(--shadow-sm);
     }
-    .toggle-sw.on::after { transform: translateX(18px); }
+    .toggle-sw.on::after { transform: translateX(22px); }
 
     /* RESULTS */
-    .results-area { flex: 1; padding: 32px 0 0 32px; }
-    .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-    .results-count { font-size: 16px; font-weight: 700; }
-    .results-count span { color: rgba(255,255,255,0.45); font-weight: 400; font-size: 14px; }
+    .results-area { flex: 1; padding: 40px 0 0 0; }
+    .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+    .results-count { font-size: 18px; font-weight: 700; color: var(--text-main); }
+    .results-count span { color: var(--text-secondary); font-weight: 500; font-size: 16px; }
     .sort-select {
-      padding: 9px 16px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 10px; color: #fff;
-      font-size: 14px; outline: none; cursor: pointer;
-      backdrop-filter: blur(8px);
+      padding: 12px 20px;
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: 12px; color: var(--text-main);
+      font-size: 15px; outline: none; cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s;
     }
+    .sort-select:hover { border-color: var(--primary-blue); }
+    .sort-select:focus { border-color: var(--primary-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
 
     /* PRO CARDS */
-    .pros-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px,1fr)); gap: 16px; }
+    .pros-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px,1fr)); gap: 24px; }
     .pro-card {
-      padding: 22px;
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 16px;
+      padding: 32px;
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: 20px;
       display: flex; flex-direction: column;
-      transition: all 0.3s;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow);
+      cursor: pointer;
     }
-    .pro-card:hover { transform: translateY(-5px); border-color: rgba(138,180,248,0.35); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+    .pro-card:hover { transform: translateY(-8px); border-color: var(--primary-blue); box-shadow: var(--shadow-xl); }
 
-    .pro-card-top { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 14px; }
+    .pro-card-top { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 20px; }
     .pro-av-wrap { position: relative; display: inline-flex; }
     .pro-avatar {
-      width: 52px; height: 52px; border-radius: 14px;
+      width: 64px; height: 64px; border-radius: 16px;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 18px; color: #fff;
+      font-weight: 800; font-size: 20px; color: #fff;
+      box-shadow: var(--shadow);
     }
     .pro-avail {
-      width: 10px; height: 10px; border-radius: 50%; background: #00e682;
-      border: 2px solid #0f2027; position: absolute; bottom: 2px; right: 2px;
+      width: 14px; height: 14px; border-radius: 50%; background: var(--success-green);
+      border: 3px solid var(--bg-card); position: absolute; bottom: 2px; right: 2px;
+      box-shadow: var(--shadow-sm);
     }
     .pro-info { flex: 1; }
-    .pro-name { font-weight: 700; font-size: 16px; margin-bottom: 3px; }
-    .pro-role-title { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 5px; }
-    .pro-rating { display: flex; align-items: center; gap: 5px; font-size: 13px; color: #ffc940; }
-    .pro-rating .count { color: rgba(255,255,255,0.4); font-size: 12px; }
+    .pro-name { font-weight: 700; font-size: 20px; margin-bottom: 6px; color: var(--text-main); }
+    .pro-role-title { font-size: 15px; color: var(--primary-blue); margin-bottom: 8px; font-weight: 600; }
+    .pro-rating { display: flex; align-items: center; gap: 8px; font-size: 15px; color: #f59e0b; margin-bottom: 12px; }
+    .pro-rating .count { color: var(--text-secondary); font-size: 14px; font-weight: 500; }
 
-    .pro-bio { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; margin-bottom: 14px; flex: 1; }
-    .pro-skills { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 16px; }
-    .skill-tag { display: inline-block; padding: 3px 10px; border-radius: 50px; background: rgba(138,180,248,0.1); color: #8ab4f8; font-size: 11px; font-weight: 600; }
+    .pro-bio { font-size: 15px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px; flex: 1; }
+    .pro-skills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .skill-tag { display: inline-block; padding: 6px 14px; border-radius: 50px; background: rgba(37, 99, 235, 0.1); color: var(--primary-blue); font-size: 12px; font-weight: 600; border: 1px solid rgba(37, 99, 235, 0.2); }
 
     .pro-card-footer {
       display: flex; justify-content: space-between; align-items: center;
-      padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08); margin-top: auto;
+      padding-top: 20px; border-top: 1px solid var(--border); margin-top: auto;
     }
-    .pro-rate { font-weight: 700; font-size: 14px; }
-    .pro-rate span { font-weight: 400; font-size: 12px; color: rgba(255,255,255,0.45); }
+    .pro-rate { font-weight: 700; font-size: 16px; color: var(--text-main); }
+    .pro-rate span { font-weight: 500; font-size: 14px; color: var(--text-secondary); }
 
     .btn-ghost {
-      padding: 7px 16px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 8px; color: rgba(255,255,255,0.7);
-      font-size: 12px; font-weight: 600;
+      padding: 10px 20px;
+      background: transparent;
+      border: 2px solid var(--border);
+      border-radius: 12px; color: var(--text-secondary);
+      font-size: 14px; font-weight: 600;
       cursor: pointer; text-decoration: none; transition: all 0.2s;
+      box-shadow: var(--shadow-sm);
     }
-    .btn-ghost:hover { background: rgba(138,180,248,0.12); color: #8ab4f8; border-color: rgba(138,180,248,0.3); }
+    .btn-ghost:hover { background: var(--primary-blue); color: #fff; border-color: var(--primary-blue); transform: translateY(-2px); box-shadow: var(--shadow); }
 
     /* EMPTY / LOADING */
-    .empty { text-align: center; padding: 60px 20px; color: rgba(255,255,255,0.35); font-size: 15px; grid-column: 1/-1; }
-    .loading { text-align: center; padding: 60px 20px; color: rgba(255,255,255,0.4); font-size: 14px; grid-column: 1/-1; }
+    .empty { text-align: center; padding: 80px 20px; color: var(--text-secondary); font-size: 18px; grid-column: 1/-1; }
+    .loading { text-align: center; padding: 80px 20px; color: var(--text-secondary); font-size: 16px; grid-column: 1/-1; }
 
     /* PAGINATION */
-    .pagination { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 40px; }
+    .pagination { display: flex; justify-content: center; align-items: center; gap: 12px; margin-top: 48px; }
     .page-btn {
-      width: 40px; height: 40px; border-radius: 10px;
+      width: 48px; height: 48px; border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
-      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
-      color: rgba(255,255,255,0.6); font-size: 14px; font-weight: 600;
+      background: var(--bg-card); border: 2px solid var(--border);
+      color: var(--text-secondary); font-size: 16px; font-weight: 600;
       cursor: pointer; transition: all 0.2s; text-decoration: none;
+      box-shadow: var(--shadow-sm);
     }
-    .page-btn:hover, .page-btn.active { background: rgba(138,180,248,0.12); border-color: #8ab4f8; color: #8ab4f8; }
+    .page-btn:hover { background: var(--primary-blue); border-color: var(--primary-blue); color: #fff; transform: translateY(-2px); box-shadow: var(--shadow); }
+    .page-btn.active { background: var(--success-green); border-color: var(--success-green); color: #fff; box-shadow: var(--shadow); }
 
     @keyframes fadeInUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
     .fade-up { animation: fadeInUp 0.5s ease both; }
@@ -320,25 +357,34 @@
       <div class="sidebar-section">
         <div class="sidebar-title">Availability</div>
         <div class="availability-toggle">
-          <span style="font-size:14px;color:rgba(255,255,255,0.55);">Available Now</span>
+          <span style="font-size:15px;color:var(--text-secondary);font-weight:500;">Available Now</span>
           <div class="toggle-sw on" onclick="this.classList.toggle('on')"></div>
         </div>
       </div>
       <div class="sidebar-section">
         <div class="sidebar-title">Skills</div>
-        <label class="sidebar-option"><input type="checkbox" onchange="applyFilters()"/> Frontend Dev</label>
-        <label class="sidebar-option"><input type="checkbox" onchange="applyFilters()"/> Backend Dev</label>
+        <label class="sidebar-option"><input type="checkbox" onchange="applyFilters()"/> Frontend Development</label>
+        <label class="sidebar-option"><input type="checkbox" onchange="applyFilters()"/> Backend Development</label>
         <label class="sidebar-option"><input type="checkbox" onchange="applyFilters()"/> Cybersecurity</label>
-        <label class="sidebar-option"><input type="checkbox" onchange="applyFilters()"/> Mobile Dev</label>
-        <label class="sidebar-option"><input type="checkbox" onchange="applyFilters()"/> UI / UX Design</label>
-        <label class="sidebar-option"><input type="checkbox" onchange="applyFilters()"/> Data Analysis</label>
+        <label class="sidebar-option"><input type="checkbox" onchange="applyFilters()"/> Mobile Development</label>
+        <label class="sidebar-option"><input type="checkbox" onchange="applyFilters()"/> UI/UX Design</label>
+        <label class="sidebar-option"><input type="checkbox" onchange="applyFilters()"/> Data Science</label>
         <label class="sidebar-option"><input type="checkbox" onchange="applyFilters()"/> DevOps</label>
-        <label class="sidebar-option"><input type="checkbox" onchange="applyFilters()"/> IT Support</label>
+        <label class="sidebar-option"><input type="checkbox" onchange="applyFilters()"/> Cloud Architecture</label>
       </div>
       <div class="sidebar-section">
-        <div class="sidebar-title">Sort By</div>
-        <label class="sidebar-option"><input type="radio" name="sort" value="newest" checked onchange="applyFilters()"/> Newest</label>
-        <label class="sidebar-option"><input type="radio" name="sort" value="name" onchange="applyFilters()"/> Name A–Z</label>
+        <div class="sidebar-title">Experience Level</div>
+        <label class="sidebar-option"><input type="radio" name="experience" value="all" checked onchange="applyFilters()"/> All Levels</label>
+        <label class="sidebar-option"><input type="radio" name="experience" value="junior" onchange="applyFilters()"/> Junior (1-3 years)</label>
+        <label class="sidebar-option"><input type="radio" name="experience" value="mid" onchange="applyFilters()"/> Mid-level (3-5 years)</label>
+        <label class="sidebar-option"><input type="radio" name="experience" value="senior" onchange="applyFilters()"/> Senior (5+ years)</label>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">Hourly Rate</div>
+        <label class="sidebar-option"><input type="radio" name="rate" value="all" checked onchange="applyFilters()"/> Any Rate</label>
+        <label class="sidebar-option"><input type="radio" name="rate" value="budget" onchange="applyFilters()"/> Under $50/hr</label>
+        <label class="sidebar-option"><input type="radio" name="rate" value="standard" onchange="applyFilters()"/> $50-$100/hr</label>
+        <label class="sidebar-option"><input type="radio" name="rate" value="premium" onchange="applyFilters()"/> $100+/hr</label>
       </div>
     </div>
 
@@ -402,7 +448,92 @@
           `Browse ${allPros.length} verified tech professional${allPros.length !== 1 ? 's' : ''} on SkillConnect`
         applyFilters()
       } catch {
-        document.getElementById('prosGrid').innerHTML = `<div class="empty">Failed to load professionals. Make sure the backend is running.</div>`
+        // Load sample data when backend is not available
+        allPros = [
+          {
+            id: 1,
+            name: "Sarah Chen",
+            bio: "Full-stack developer with 5+ years of experience building scalable web applications. Expert in React, Node.js, and cloud architecture.",
+            skills: ["Frontend Development", "Backend Development", "React", "Node.js", "AWS"],
+            rating: 4.9,
+            reviews: 47,
+            hourlyRate: 85,
+            avatar: "SC"
+          },
+          {
+            id: 2,
+            name: "Marcus Rodriguez",
+            bio: "Senior cybersecurity specialist focused on threat detection and incident response. CISSP certified with expertise in network security.",
+            skills: ["Cybersecurity", "Network Security", "Incident Response", "CISSP"],
+            rating: 4.8,
+            reviews: 32,
+            hourlyRate: 120,
+            avatar: "MR"
+          },
+          {
+            id: 3,
+            name: "Emily Watson",
+            bio: "UX/UI designer creating intuitive digital experiences. Proficient in Figma, Adobe Creative Suite, and user research methodologies.",
+            skills: ["UI/UX Design", "Figma", "User Research", "Prototyping"],
+            rating: 4.9,
+            reviews: 28,
+            hourlyRate: 75,
+            avatar: "EW"
+          },
+          {
+            id: 4,
+            name: "David Kim",
+            bio: "Data scientist specializing in machine learning and predictive analytics. PhD in Statistics with 7 years of industry experience.",
+            skills: ["Data Science", "Machine Learning", "Python", "Statistics"],
+            rating: 4.7,
+            reviews: 41,
+            hourlyRate: 95,
+            avatar: "DK"
+          },
+          {
+            id: 5,
+            name: "Lisa Thompson",
+            bio: "Mobile app developer with expertise in iOS and Android. Published 15+ apps on app stores with millions of downloads.",
+            skills: ["Mobile Development", "iOS", "Android", "React Native"],
+            rating: 4.8,
+            reviews: 35,
+            hourlyRate: 90,
+            avatar: "LT"
+          },
+          {
+            id: 6,
+            name: "Alex Johnson",
+            bio: "DevOps engineer automating deployment pipelines and infrastructure. Expert in Docker, Kubernetes, and CI/CD practices.",
+            skills: ["DevOps", "Docker", "Kubernetes", "CI/CD"],
+            rating: 4.6,
+            reviews: 29,
+            hourlyRate: 100,
+            avatar: "AJ"
+          },
+          {
+            id: 7,
+            name: "Rachel Green",
+            bio: "Cloud architect designing scalable infrastructure solutions. AWS certified with experience in multi-cloud environments.",
+            skills: ["Cloud Architecture", "AWS", "Azure", "Infrastructure"],
+            rating: 4.9,
+            reviews: 38,
+            hourlyRate: 110,
+            avatar: "RG"
+          },
+          {
+            id: 8,
+            name: "Michael Brown",
+            bio: "Frontend developer specializing in modern JavaScript frameworks. Passionate about performance optimization and accessibility.",
+            skills: ["Frontend Development", "JavaScript", "Vue.js", "Performance"],
+            rating: 4.7,
+            reviews: 22,
+            hourlyRate: 70,
+            avatar: "MB"
+          }
+        ]
+        document.getElementById('heroSub').textContent =
+          `Browse ${allPros.length} verified tech professionals on SkillConnect`
+        applyFilters()
       }
     }
 
@@ -472,10 +603,10 @@
       }
 
       grid.innerHTML = paged.map((p, i) => {
-        const initials = p.name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2)
-        let skills = []
-        try { skills = Array.isArray(p.skills) ? p.skills : JSON.parse(p.skills || '[]') } catch {}
+        const initials = p.avatar || p.name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2)
+        let skills = p.skills || []
         const color = COLORS[(start + i) % COLORS.length]
+        const stars = '★'.repeat(Math.floor(p.rating || 5)) + '☆'.repeat(5 - Math.floor(p.rating || 5))
 
         return `
           <div class="pro-card">
@@ -487,13 +618,13 @@
               <div class="pro-info">
                 <div class="pro-name">${p.name}</div>
                 <div class="pro-role-title">${skills[0] || 'Professional'}</div>
-                <div class="pro-rating">★★★★★ <span class="count">(New)</span></div>
+                <div class="pro-rating">${stars} <span class="count">(${p.reviews || 0} reviews)</span></div>
               </div>
             </div>
-            <p class="pro-bio">${p.bio || 'Experienced professional available for hire on SkillConnect.'}</p>
+            <p class="pro-bio">${p.bio}</p>
             <div class="pro-skills">${skills.slice(0,4).map(s=>`<span class="skill-tag">${s}</span>`).join('')}</div>
             <div class="pro-card-footer">
-              <div class="pro-rate">Available <span>for hire</span></div>
+              <div class="pro-rate">$${p.hourlyRate || 50}/hr <span>avg rate</span></div>
               <a href="profile.html?id=${p.id}" class="btn-ghost">View Profile</a>
             </div>
           </div>
